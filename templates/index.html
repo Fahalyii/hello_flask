@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservv - Home</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        /* General Styles */
+        body { font-family: Arial, sans-serif; }
+        .container { max-width: 1200px; }
+
+        /* Navbar */
+        .navbar { background-color: #d32f2f; }
+        .navbar-brand { font-size: 24px; font-weight: bold; }
+
+        /* Hero Section */
+        .hero-section {
+            background: url("{{ url_for('static', filename='images/hero.jpg') }}") no-repeat center center/cover;
+            height: 300px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .hero-section h1 { font-size: 38px; font-weight: bold; }
+
+        /* Search Bar */
+        .search-container { margin-top: -30px; }
+        .search-bar { padding: 10px; font-size: 16px; }
+        .search-btn { background-color: #d32f2f; color: white; }
+
+        /* Restaurants */
+        .restaurant-card {
+            border-radius: 8px;
+            transition: 0.3s;
+            overflow: hidden;
+        }
+        .restaurant-card img {
+            height: 180px;
+            object-fit: cover;
+        }
+        .restaurant-card:hover { transform: scale(1.02); }
+
+        /* Reviews */
+        .review-card {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        /* Footer */
+        .footer { background: #222; color: white; padding: 10px 0; }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Reservv</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.register') }}">Register</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('restaurant.view_restaurants') }}">View Restaurants</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div>
+            <h1>Discover & Book the Best Restaurants</h1>
+            <p>Find top dining spots in Saudi Arabia</p>
+        </div>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="container search-container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="input-group">
+                    <input type="text" class="form-control search-bar" placeholder="Search for location, restaurant, or cuisine">
+                    <button class="btn search-btn">Search</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Restaurants Section -->
+    <div class="container mt-5">
+        <h4 class="fw-bold text-center mb-4">Top Restaurants in Saudi Arabia</h4>
+        <div class="row text-center">
+            {% for restaurant in [
+                {"name": "Shawarma House", "reviews": 120, "type": "Middle Eastern", "city": "Riyadh", "image": "shawarma.jpg"},
+                {"name": "Najd Village", "reviews": 98, "type": "Traditional Saudi", "city": "Riyadh", "image": "najd_village.jpg"},
+                {"name": "Al Baik", "reviews": 500, "type": "Fast Food", "city": "Jeddah", "image": "albaik.jpg"},
+                {"name": "Operation Falafel", "reviews": 250, "type": "Street Food", "city": "Dammam", "image": "falafel.jpg"}
+            ] %}
+            <div class="col-md-3">
+                <div class="card restaurant-card shadow-sm">
+                    <img src="{{ url_for('static', filename='images/' + restaurant.image) }}" class="card-img-top" alt="{{ restaurant.name }}">
+                    <div class="card-body">
+                        <h6 class="card-title fw-bold">{{ restaurant.name }}</h6>
+                        <p class="text-muted mb-1">{{ restaurant.type }} - {{ restaurant.city }}</p>
+                        <small class="text-muted">⭐ {{ restaurant.reviews }} reviews</small>
+                        <div class="mt-2">
+                            <button class="btn btn-sm btn-danger">Book Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <img src="{{ url_for('static', filename='images/shawarmaHouse.png') }}" class="card-img-top" alt="Shawarma House">
+
+    <!-- Customer Reviews -->
+    <div class="container mt-5">
+        <h4 class="fw-bold text-center mb-4">What Customers Say</h4>
+        <div class="row justify-content-center">
+            {% for review in [
+                {"user": "Sami", "city": "Riyadh", "rating": 5, "comment": "Fantastic food! Highly recommend."},
+                {"user": "Aisha", "city": "Jeddah", "rating": 4, "comment": "Loved the ambiance and service."},
+                {"user": "Khalid", "city": "Dammam", "rating": 5, "comment": "Best Shawarma I've ever had!"}
+            ] %}
+            <div class="col-md-4">
+                <div class="review-card shadow-sm text-center">
+                    <h6 class="fw-bold">{{ review.user }} ⭐{{ review.rating }}</h6>
+                    <p class="text-muted mb-1">{{ review.city }}</p>
+                    <p class="mb-1">{{ review.comment }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer text-center mt-5">
+        <p class="mb-0">© 2025 Reservv. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>
