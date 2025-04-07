@@ -3,72 +3,406 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reservv - Home</title>
+    <title>Reservv - Find & Book Top Restaurants in Saudi Arabia</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         /* General Styles */
-        body { font-family: Arial, sans-serif; }
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            color: #333;
+        }
         .container { max-width: 1200px; }
 
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animated { animation: fadeIn 0.6s ease-out; }
+
         /* Navbar */
-        .navbar { background-color: #d32f2f; }
-        .navbar-brand { font-size: 24px; font-weight: bold; }
+        .navbar {
+            background-color: #d24b62;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 12px 0;
+        }
+        .navbar-brand {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        .V {
+            color: #6eceae;
+            font-weight: 900;
+        }
+        .nav-link {
+            font-weight: 600;
+            padding: 8px 16px !important;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        .nav-link:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+        .nav-btn {
+            background-color: white;
+            color: #d24b62 !important;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        .nav-btn:hover {
+            background-color: #f8f9fa;
+            transform: translateY(-2px);
+        }
 
         /* Hero Section */
         .hero-section {
-            background: url("{{ url_for('static', filename='images/hero.jpg') }}") no-repeat center center/cover;
-            height: 300px;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cmVzdGF1cmFudHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=1200&q=80") no-repeat center center/cover;
+            height: 500px;
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
+            position: relative;
         }
-        .hero-section h1 { font-size: 38px; font-weight: bold; }
+        .hero-content {
+            max-width: 800px;
+            padding: 20px;
+            z-index: 2;
+        }
+        .hero-section h1 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .hero-section p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
 
         /* Search Bar */
-        .search-container { margin-top: -30px; }
-        .search-bar { padding: 10px; font-size: 16px; }
-        .search-btn { background-color: #d32f2f; color: white; }
+        .search-container {
+            margin-top: -75px;
+            position: relative;
+            z-index: 10;
+        }
+        .search-bar {
+            padding: 12px 20px;
+            font-size: 16px;
+            border: none;
+            box-shadow: none;
+        }
+        .search-bar:focus {
+            box-shadow: none;
+            border-color: #d24b62;
+        }
+        .search-btn {
+            background-color: #d24b62;
+            color: white;
+            font-weight: 600;
+            padding: 12px 25px;
+            transition: all 0.2s;
+        }
+        .search-btn:hover {
+            background-color: #c03651;
+            transform: translateY(-2px);
+        }
+        .search-panel {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* Featured Cities */
+        .city-card {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            height: 200px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .city-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .city-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s;
+        }
+        .city-card:hover img {
+            transform: scale(1.05);
+        }
+        .city-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            color: white;
+            padding: 20px;
+        }
+        .city-overlay h5 {
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
 
         /* Restaurants */
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 40px;
+        }
+        .section-title::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 50px;
+            height: 3px;
+            background-color: #d24b62;
+        }
         .restaurant-card {
-            border-radius: 8px;
+            border-radius: 12px;
             transition: 0.3s;
             overflow: hidden;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
         }
         .restaurant-card img {
-            height: 180px;
+            height: 200px;
             object-fit: cover;
+            transition: all 0.5s;
         }
-        .restaurant-card:hover { transform: scale(1.02); }
+        .restaurant-card:hover img {
+            transform: scale(1.05);
+        }
+        .restaurant-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        .restaurant-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #d24b62;
+            color: white;
+            font-size: 12px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        .restaurant-type {
+            color: #6eceae;
+            font-weight: 600;
+        }
+        .rating {
+            color: #ffc107;
+        }
+        .book-btn {
+            background-color: #d24b62;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .book-btn:hover {
+            background-color: #c03651;
+            transform: translateY(-2px);
+        }
 
         /* Reviews */
-        .review-card {
+        .reviews-section {
             background-color: #f8f9fa;
-            padding: 10px;
-            border-radius: 8px;
+            padding: 60px 0;
+            margin-top: 60px;
+        }
+        .review-card {
+            background-color: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            height: 100%;
+            position: relative;
+            transition: all 0.3s;
+        }
+        .review-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        .review-card::before {
+            content: """;
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-size: 60px;
+            color: #f0f0f0;
+            z-index: 0;
+        }
+        .review-card .content {
+            position: relative;
+            z-index: 1;
+        }
+        .avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 60px 0;
+            background-color: #fff;
+            text-align: center;
+        }
+        .step-card {
+            padding: 30px;
+            border-radius: 12px;
+            background-color: #f8f9fa;
+            height: 100%;
+            transition: all 0.3s;
+        }
+        .step-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        .step-icon {
+            font-size: 40px;
+            color: #d24b62;
+            margin-bottom: 20px;
+        }
+        .step-number {
+            background-color: #d24b62;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        /* CTA */
+        .cta-section {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url("https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fHJlc3RhdXJhbnR8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=1200&q=80") no-repeat center center/cover;
+            padding: 80px 0;
+            color: white;
+            text-align: center;
+        }
+        .cta-heading {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+        .cta-subheading {
+            font-size: 18px;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .cta-btn {
+            background-color: #d24b62;
+            color: white;
+            padding: 12px 30px;
+            font-weight: 600;
+            border-radius: 4px;
+            transition: all 0.2s;
+            display: inline-block;
+        }
+        .cta-btn:hover {
+            background-color: #c03651;
+            transform: translateY(-2px);
         }
 
         /* Footer */
-        .footer { background: #222; color: white; padding: 10px 0; }
+        .footer {
+            background: #222;
+            color: white;
+            padding: 60px 0 20px;
+        }
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        .footer-links h5 {
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #6eceae;
+        }
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+        }
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .footer-links a:hover {
+            color: #6eceae;
+            padding-left: 5px;
+        }
+        .social-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #333;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            transition: all 0.2s;
+        }
+        .social-icon:hover {
+            background-color: #d24b62;
+            transform: translateY(-3px);
+        }
+        .copyright {
+            border-top: 1px solid #444;
+            margin-top: 40px;
+            padding-top: 20px;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="#">Reservv</a>
+            <a class="navbar-brand" href="#">RESERV<span class="V">V</span></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}">Login</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.register') }}">Register</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('restaurant.view_restaurants') }}">View Restaurants</a></li>
+                    <li class="nav-item"><a class="nav-link" href="restaurants">Restaurants</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#how-it-works">How It Works</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/aboutUs">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link nav-btn" href="/login">Login / Register</a></li>
                 </ul>
             </div>
         </div>
@@ -76,77 +410,213 @@
 
     <!-- Hero Section -->
     <div class="hero-section">
-        <div>
+        <div class="hero-content animated">
             <h1>Discover & Book the Best Restaurants</h1>
-            <p>Find top dining spots in Saudi Arabia</p>
+            <p>Find top dining spots across Saudi Arabia with real-time availability</p>
         </div>
     </div>
 
     <!-- Search Bar -->
     <div class="container search-container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="input-group">
-                    <input type="text" class="form-control search-bar" placeholder="Search for location, restaurant, or cuisine">
-                    <button class="btn search-btn">Search</button>
+            <div class="col-lg-10">
+                <div class="search-panel">
+                    <div class="input-group shadow-sm p-3 rounded bg-white">
+                        <!-- Date Picker -->
+                        <input type="date" class="form-control border-0" value="2025-03-30">
+
+                        <!-- Time Picker -->
+                        <select class="form-select border-0">
+                            <option>7:00 PM</option>
+                            <option>7:30 PM</option>
+                            <option>8:00 PM</option>
+                            <option>8:30 PM</option>
+                            <option>9:00 PM</option>
+                        </select>
+
+                        <!-- Number of People -->
+                        <select class="form-select border-0">
+                            <option>2 people</option>
+                            <option>1 person</option>
+                            <option>3 people</option>
+                            <option>4 people</option>
+                            <option>5+ people</option>
+                        </select>
+
+                        <!-- Search Bar -->
+                        <input type="text" class="form-control border-0" placeholder="Location, Restaurant, or Cuisine">
+
+                        <!-- Submit Button -->
+                        <button class="btn search-btn">Find a Table</button>
+                    </div>
+                </div>
+
+                <!-- Location Suggestion -->
+                <div class="text-center mt-3">
+                    <small class="text-white bg-dark bg-opacity-50 px-3 py-1 rounded-pill">
+                        <i class="bi bi-geo-alt-fill"></i> Showing results for <strong>Riyadh</strong> -
+                        <a href="#" class="text-white text-decoration-underline">Change location</a>
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Featured Cities -->
+    <div class="container mt-5 pt-4">
+        <div class="row">
+            <div class="col-12">
+                <h4 class="fw-bold section-title">Explore Popular Cities</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-sm-6">
+                <div class="city-card shadow">
+                    <img src="https://images.unsplash.com/photo-1586724237569-f3d0c1dee8c6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cml5YWRofGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" alt="Riyadh">
+                    <div class="city-overlay">
+                        <h5>Riyadh</h5>
+                        <p class="mb-0">240+ Restaurants</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="city-card shadow">
+                    <img src="https://images.unsplash.com/photo-1580418827493-f2b22c0a76cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8amVkZGFofGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" alt="Jeddah">
+                    <div class="city-overlay">
+                        <h5>Jeddah</h5>
+                        <p class="mb-0">190+ Restaurants</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="city-card shadow">
+                    <img src="https://i0.wp.com/mytravelation.com/wp-content/uploads/2023/11/Dammam.jpeg" alt="Dammam">
+                    <div class="city-overlay">
+                        <h5>Dammam</h5>
+                        <p class="mb-0">120+ Restaurants</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Restaurants Section -->
-    <div class="container mt-5">
-        <h4 class="fw-bold text-center mb-4">Top Restaurants in Saudi Arabia</h4>
-        <div class="row text-center">
-            {% for restaurant in [
-                {"name": "Shawarma House", "reviews": 120, "type": "Middle Eastern", "city": "Riyadh", "image": "shawarma.jpg"},
-                {"name": "Najd Village", "reviews": 98, "type": "Traditional Saudi", "city": "Riyadh", "image": "najd_village.jpg"},
-                {"name": "Al Baik", "reviews": 500, "type": "Fast Food", "city": "Jeddah", "image": "albaik.jpg"},
-                {"name": "Operation Falafel", "reviews": 250, "type": "Street Food", "city": "Dammam", "image": "falafel.jpg"}
-            ] %}
-            <div class="col-md-3">
-                <div class="card restaurant-card shadow-sm">
-                    <img src="{{ url_for('static', filename='images/' + restaurant.image) }}" class="card-img-top" alt="{{ restaurant.name }}">
-                    <div class="card-body">
-                        <h6 class="card-title fw-bold">{{ restaurant.name }}</h6>
-                        <p class="text-muted mb-1">{{ restaurant.type }} - {{ restaurant.city }}</p>
-                        <small class="text-muted">⭐ {{ restaurant.reviews }} reviews</small>
-                        <div class="mt-2">
-                            <button class="btn btn-sm btn-danger">Book Now</button>
-                        </div>
+<div class="container mt-5 pt-4" id="restaurants">
+    <div class="row">
+        <div class="col-md-8">
+            <h4 class="fw-bold section-title">Top Restaurants in Saudi Arabia</h4>
+        </div>
+        <div class="col-md-4 text-md-end">
+            <a href="{{ url_for('restaurants') }}" class="btn btn-outline-danger">
+                View All Restaurants <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        {% for restaurant in restaurants %}
+        <div class="col-md-6 col-lg-3 mb-4">
+            <div class="card restaurant-card">
+                <div class="position-relative">
+                    <img src="{{ url_for('static', filename=restaurant.image if restaurant.image else 'images/default_restaurant.jpg') }}"
+                         class="card-img-top" alt="{{ restaurant.name }}">
+                    <span class="restaurant-badge">Open</span>
+                </div>
+                <div class="card-body">
+                    <h6 class="card-title fw-bold">{{ restaurant.name }}</h6>
+                    <p class="mb-1">
+                        <span class="restaurant-type">{{ restaurant.cuisine }}</span> • {{ restaurant.location }}
+                    </p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="rating"><i class="bi bi-star-fill"></i> {{ restaurant.rating or '4.5' }}</span>
+                        <small class="text-muted">({{ restaurant.review_count or 0 }} reviews)</small>
+                    </div>
+                    <div class="mt-3">
+                        <a href="/reserve/{{ restaurant.id }}" class="btn book-btn w-100">Book a Table</a>
                     </div>
                 </div>
             </div>
-            {% endfor %}
         </div>
+        {% endfor %}
     </div>
+</div>
 
-    <img src="{{ url_for('static', filename='images/shawarmaHouse.png') }}" class="card-img-top" alt="Shawarma House">
 
-    <!-- Customer Reviews -->
-    <div class="container mt-5">
-        <h4 class="fw-bold text-center mb-4">What Customers Say</h4>
-        <div class="row justify-content-center">
-            {% for review in [
-                {"user": "Sami", "city": "Riyadh", "rating": 5, "comment": "Fantastic food! Highly recommend."},
-                {"user": "Aisha", "city": "Jeddah", "rating": 4, "comment": "Loved the ambiance and service."},
-                {"user": "Khalid", "city": "Dammam", "rating": 5, "comment": "Best Shawarma I've ever had!"}
-            ] %}
-            <div class="col-md-4">
-                <div class="review-card shadow-sm text-center">
-                    <h6 class="fw-bold">{{ review.user }} ⭐{{ review.rating }}</h6>
-                    <p class="text-muted mb-1">{{ review.city }}</p>
-                    <p class="mb-1">{{ review.comment }}</p>
+    <!-- How It Works -->
+    <div class="how-it-works mt-5" id="how-it-works">
+        <div class="container">
+            <div class="row text-center mb-5">
+                <div class="col-12">
+                    <h2 class="fw-bold">How Reservv Works</h2>
+                    <p class="text-muted">Book your favorite restaurant in 3 simple steps</p>
                 </div>
             </div>
-            {% endfor %}
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <div class="step-icon">
+                            <i class="bi bi-search"></i>
+                        </div>
+                        <h5 class="fw-bold">Search & Discover</h5>
+                        <p>Find the perfect restaurant by location, cuisine, or name</p>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <div class="step-icon">
+                            <i class="bi bi-calendar-check"></i>
+                        </div>
+                        <h5 class="fw-bold">Book a Table</h5>
+                        <p>Choose your preferred date, time, and party size</p>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <div class="step-icon">
+                            <i class="bi bi-cup-straw"></i>
+                        </div>
+                        <h5 class="fw-bold">Enjoy Your Meal</h5>
+                        <p>Show up and enjoy your dining experience</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="footer text-center mt-5">
-        <p class="mb-0">© 2025 Reservv. All Rights Reserved.</p>
-    </footer>
+    <!-- Reviews Section -->
+    <div class="reviews-section">
+        <div class="container">
+            <div class="row text-center mb-5">
+                <div class="col-12">
+                    <h2 class="fw-bold">What Our Users Say</h2>
+                    <p class="text-muted">Join thousands of satisfied diners across Saudi Arabia</p>
+                </div>
+            </div>
 
-</body>
-</html>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="review-card">
+                        <div class="content">
+                            <img src="https://randomuser.me/api/portraits/men/6.jpg" alt="Sami" class="avatar">
+                            <h5 class="fw-bold">Sami Al-Qahtani</h5>
+                            <p class="text-muted mb-2">Riyadh</p>
+                            <div class="rating mb-3">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                            </div>
+                            <p class="mb-0">"Reservv made finding and booking a table at the best restaurants in Riyadh so simple. The app is intuitive and the confirmation was instant. Fantastic food and service!"</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="review-card"> </div>

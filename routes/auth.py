@@ -5,36 +5,47 @@ from models import db, User
 
 auth_bp = Blueprint('auth', __name__)
 
-# User Registration
+
+
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        try:
-            name = request.form.get('name')
-            email = request.form.get('email')
-            password = request.form.get('password')
-            role = request.form.get('role')
+        # Get form data
+        username = request.form.get('username')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        role = request.form.get('role')
 
-            print(f"DEBUG: Name={name}, Email={email}, Password={password}, Role={role}")  # Debugging
+        # Debug output
+        print("Form Data:")
+        print(f"Username: {username}")
+        print(f"Email: {email}")
+        print(f"Password: {password}")
+        print(f"Role: {role}")
 
-            if not name or not email or not password or not role:
-                flash("All fields are required!", "danger")
-                return redirect(url_for('auth.register'))
-
-            hashed_password = generate_password_hash(password, method='sha256')
-            new_user = User(name=name, email=email, password=hashed_password, role=role)
-            db.session.add(new_user)
-            db.session.commit()
-
-            flash("Registration successful, please login", "success")
-            return redirect(url_for('auth.login'))
-
-        except Exception as e:
-            print(f"ERROR: {str(e)}")  # Debugging error
-            flash("An error occurred. Please try again.", "danger")
+        # Validate fields
+        if not username or not email or not password or not role:
+            flash("All fields are required!", "danger")
             return redirect(url_for('auth.register'))
 
+        # Check if email already exists
+        if User.query.filter_by(email=email).first():
+            flash("Email already registered. Please log in.", "warning")
+            return redirect(url_for('auth.login'))
+
+        # Hash password and create user
+        hashed_password = generate_password_hash(password, method='pbkdf2:sha256', salt_length=16)
+        new_user = User(name=username, email=email, password=hashed_password, role=role)
+
+        # Save to DB
+        db.session.add(new_user)
+        db.session.commit()
+
+        flash("Registration successful! Please login.", "success")
+        return redirect(url_for('auth.login'))
+
     return render_template('register.html')
+
 
 # User Login
 @auth_bp.route('/login', methods=['GET', 'POST'])
@@ -47,6 +58,7 @@ def login():
         if user and check_password_hash(user.password, password):
             login_user(user)
             return redirect(url_for('home'))
+
 
         flash("Invalid credentials", "danger")
 
