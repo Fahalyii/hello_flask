@@ -1,0 +1,229 @@
+<html>
+<head>
+<title>confirmation.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #d5b778;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bababa;}
+.s3 { color: #6aab73;}
+.s4 { color: #7a7e85;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+confirmation.html</font>
+</center></td></tr></table>
+<pre><span class="s0">&lt;!DOCTYPE </span><span class="s2">html</span><span class="s0">&gt;</span>
+<span class="s0">&lt;html </span><span class="s2">lang</span><span class="s3">=&quot;en&quot;</span><span class="s0">&gt;</span>
+<span class="s0">&lt;head&gt;</span>
+  <span class="s0">&lt;meta </span><span class="s2">charset</span><span class="s3">=&quot;UTF-8&quot;</span><span class="s0">&gt;</span>
+  <span class="s0">&lt;meta </span><span class="s2">name</span><span class="s3">=&quot;viewport&quot; </span><span class="s2">content</span><span class="s3">=&quot;width=device-width, initial-scale=1.0&quot;</span><span class="s0">&gt;</span>
+  <span class="s0">&lt;title&gt;</span><span class="s1">Reservv - Confirmation</span><span class="s0">&lt;/title&gt;</span>
+  <span class="s0">&lt;link </span><span class="s2">rel</span><span class="s3">=&quot;stylesheet&quot; </span><span class="s2">href</span><span class="s3">=&quot;book.css&quot;</span><span class="s0">&gt;</span>
+  <span class="s0">&lt;link </span><span class="s2">rel</span><span class="s3">=&quot;stylesheet&quot; </span><span class="s2">href</span><span class="s3">=&quot;confirmation.css&quot;</span><span class="s0">&gt;</span>
+<span class="s0">&lt;/head&gt;</span>
+<span class="s0">&lt;body&gt;</span>
+  <span class="s4">&lt;!-- Navigation Bar --&gt;</span>
+  <span class="s0">&lt;nav </span><span class="s2">class</span><span class="s3">=&quot;navbar&quot;</span><span class="s0">&gt;</span>
+    <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;nav-container&quot;</span><span class="s0">&gt;</span>
+      <span class="s0">&lt;a </span><span class="s2">href</span><span class="s3">=&quot;#&quot; </span><span class="s2">class</span><span class="s3">=&quot;site-logo&quot;</span><span class="s0">&gt;</span><span class="s1">Reservv</span><span class="s0">&lt;/a&gt;</span>
+
+      <span class="s0">&lt;ul </span><span class="s2">class</span><span class="s3">=&quot;nav-menu&quot;</span><span class="s0">&gt;</span>
+        <span class="s0">&lt;li&gt;&lt;a </span><span class="s2">href</span><span class="s3">=&quot;#home&quot; </span><span class="s2">class</span><span class="s3">=&quot;nav-link&quot;</span><span class="s0">&gt;</span><span class="s1">Home</span><span class="s0">&lt;/a&gt;&lt;/li&gt;</span>
+        <span class="s0">&lt;li&gt;&lt;a </span><span class="s2">href</span><span class="s3">=&quot;#restaurants&quot; </span><span class="s2">class</span><span class="s3">=&quot;nav-link active&quot;</span><span class="s0">&gt;</span><span class="s1">Restaurants</span><span class="s0">&lt;/a&gt;&lt;/li&gt;</span>
+        <span class="s0">&lt;li&gt;&lt;a </span><span class="s2">href</span><span class="s3">=&quot;#reservations&quot; </span><span class="s2">class</span><span class="s3">=&quot;nav-link&quot;</span><span class="s0">&gt;</span><span class="s1">My Reservations</span><span class="s0">&lt;/a&gt;&lt;/li&gt;</span>
+        <span class="s0">&lt;li&gt;&lt;a </span><span class="s2">href</span><span class="s3">=&quot;#about&quot; </span><span class="s2">class</span><span class="s3">=&quot;nav-link&quot;</span><span class="s0">&gt;</span><span class="s1">About Us</span><span class="s0">&lt;/a&gt;&lt;/li&gt;</span>
+      <span class="s0">&lt;/ul&gt;</span>
+
+      <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;auth-buttons&quot;</span><span class="s0">&gt;</span>
+        <span class="s0">&lt;button </span><span class="s2">class</span><span class="s3">=&quot;btn-login&quot;</span><span class="s0">&gt;</span><span class="s1">Login</span><span class="s0">&lt;/button&gt;</span>
+        <span class="s0">&lt;button </span><span class="s2">class</span><span class="s3">=&quot;btn-register&quot;</span><span class="s0">&gt;</span><span class="s1">Register</span><span class="s0">&lt;/button&gt;</span>
+      <span class="s0">&lt;/div&gt;</span>
+    <span class="s0">&lt;/div&gt;</span>
+  <span class="s0">&lt;/nav&gt;</span>
+
+  <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;container&quot;</span><span class="s0">&gt;</span>
+    <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;confirmation-card&quot;</span><span class="s0">&gt;</span>
+      <span class="s4">&lt;!-- Confirmation Header --&gt;</span>
+      <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;confirmation-header&quot;</span><span class="s0">&gt;</span>
+        <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;confirmation-icon&quot;</span><span class="s0">&gt;</span><span class="s1">✅</span><span class="s0">&lt;/div&gt;</span>
+        <span class="s0">&lt;h2 </span><span class="s2">class</span><span class="s3">=&quot;confirmation-title&quot;</span><span class="s0">&gt;</span><span class="s1">Reservation Confirmed!</span><span class="s0">&lt;/h2&gt;</span>
+        <span class="s0">&lt;p </span><span class="s2">class</span><span class="s3">=&quot;confirmation-subtitle&quot;</span><span class="s0">&gt;</span><span class="s1">Your table at albaik has been reserved.</span><span class="s0">&lt;/p&gt;</span>
+      <span class="s0">&lt;/div&gt;</span>
+
+      <span class="s4">&lt;!-- Reservation Details --&gt;</span>
+      <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;details-section&quot;</span><span class="s0">&gt;</span>
+        <span class="s0">&lt;h3 </span><span class="s2">class</span><span class="s3">=&quot;section-title&quot;</span><span class="s0">&gt;</span><span class="s1">Reservation Details</span><span class="s0">&lt;/h3&gt;</span>
+
+        <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;detail-grid&quot;</span><span class="s0">&gt;</span>
+          <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;detail-item&quot;</span><span class="s0">&gt;</span>
+            <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;detail-label&quot;</span><span class="s0">&gt;</span><span class="s1">Restaurant</span><span class="s0">&lt;/div&gt;</span>
+            <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;detail-value&quot;</span><span class="s0">&gt;</span><span class="s1">albaik</span><span class="s0">&lt;/div&gt;</span>
+          <span class="s0">&lt;/div&gt;</span>
+
+          <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;detail-item&quot;</span><span class="s0">&gt;</span>
+            <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;detail-label&quot;</span><span class="s0">&gt;</span><span class="s1">Date</span><span class="s0">&lt;/div&gt;</span>
+            <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;detail-value&quot; </span><span class="s2">id</span><span class="s3">=&quot;conf-date&quot;</span><span class="s0">&gt;</span><span class="s1">April 11, 2025</span><span class="s0">&lt;/div&gt;</span>
+          <span class="s0">&lt;/div&gt;</span>
+
+          <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;detail-item&quot;</span><span class="s0">&gt;</span>
+            <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;detail-label&quot;</span><span class="s0">&gt;</span><span class="s1">Time</span><span class="s0">&lt;/div&gt;</span>
+            <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;detail-value&quot; </span><span class="s2">id</span><span class="s3">=&quot;conf-time&quot;</span><span class="s0">&gt;</span><span class="s1">6:00 PM</span><span class="s0">&lt;/div&gt;</span>
+          <span class="s0">&lt;/div&gt;</span>
+
+          <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;detail-item&quot;</span><span class="s0">&gt;</span>
+            <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;detail-label&quot;</span><span class="s0">&gt;</span><span class="s1">Party Size</span><span class="s0">&lt;/div&gt;</span>
+            <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;detail-value&quot; </span><span class="s2">id</span><span class="s3">=&quot;conf-guests&quot;</span><span class="s0">&gt;</span><span class="s1">2 people</span><span class="s0">&lt;/div&gt;</span>
+          <span class="s0">&lt;/div&gt;</span>
+
+          <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;detail-item&quot;</span><span class="s0">&gt;</span>
+            <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;detail-label&quot;</span><span class="s0">&gt;</span><span class="s1">Reservation ID</span><span class="s0">&lt;/div&gt;</span>
+            <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;detail-value&quot;</span><span class="s0">&gt;</span><span class="s1">RES-2025-04-11-28745</span><span class="s0">&lt;/div&gt;</span>
+          <span class="s0">&lt;/div&gt;</span>
+
+          <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;detail-item&quot;</span><span class="s0">&gt;</span>
+            <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;detail-label&quot;</span><span class="s0">&gt;</span><span class="s1">Status</span><span class="s0">&lt;/div&gt;</span>
+            <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;detail-value status-confirmed&quot;</span><span class="s0">&gt;</span><span class="s1">Confirmed</span><span class="s0">&lt;/div&gt;</span>
+          <span class="s0">&lt;/div&gt;</span>
+        <span class="s0">&lt;/div&gt;</span>
+      <span class="s0">&lt;/div&gt;</span>
+
+      <span class="s4">&lt;!-- Contact Information --&gt;</span>
+      <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;details-section&quot;</span><span class="s0">&gt;</span>
+        <span class="s0">&lt;h3 </span><span class="s2">class</span><span class="s3">=&quot;section-title&quot;</span><span class="s0">&gt;</span><span class="s1">Guest Information</span><span class="s0">&lt;/h3&gt;</span>
+
+        <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;detail-grid&quot;</span><span class="s0">&gt;</span>
+          <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;detail-item&quot;</span><span class="s0">&gt;</span>
+            <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;detail-label&quot;</span><span class="s0">&gt;</span><span class="s1">Full Name</span><span class="s0">&lt;/div&gt;</span>
+            <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;detail-value&quot; </span><span class="s2">id</span><span class="s3">=&quot;conf-name&quot;</span><span class="s0">&gt;</span><span class="s1">mohammed alowayed </span><span class="s0">&lt;/div&gt;</span>
+          <span class="s0">&lt;/div&gt;</span>
+
+          <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;detail-item&quot;</span><span class="s0">&gt;</span>
+            <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;detail-label&quot;</span><span class="s0">&gt;</span><span class="s1">Phone</span><span class="s0">&lt;/div&gt;</span>
+            <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;detail-value&quot; </span><span class="s2">id</span><span class="s3">=&quot;conf-phone&quot;</span><span class="s0">&gt;</span><span class="s1">+966 (555) 123-4567</span><span class="s0">&lt;/div&gt;</span>
+          <span class="s0">&lt;/div&gt;</span>
+
+          <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;detail-item&quot;</span><span class="s0">&gt;</span>
+            <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;detail-label&quot;</span><span class="s0">&gt;</span><span class="s1">Email</span><span class="s0">&lt;/div&gt;</span>
+            <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;detail-value&quot; </span><span class="s2">id</span><span class="s3">=&quot;conf-email&quot;</span><span class="s0">&gt;</span><span class="s1">mohammed@hotmail</span><span class="s0">&lt;/div&gt;</span>
+          <span class="s0">&lt;/div&gt;</span>
+
+          <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;detail-item&quot;</span><span class="s0">&gt;</span>
+            <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;detail-label&quot;</span><span class="s0">&gt;</span><span class="s1">Special Requests</span><span class="s0">&lt;/div&gt;</span>
+            <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;detail-value&quot; </span><span class="s2">id</span><span class="s3">=&quot;conf-requests&quot;</span><span class="s0">&gt;</span><span class="s1">Window table if possible</span><span class="s0">&lt;/div&gt;</span>
+          <span class="s0">&lt;/div&gt;</span>
+        <span class="s0">&lt;/div&gt;</span>
+      <span class="s0">&lt;/div&gt;</span>
+
+      <span class="s4">&lt;!-- Payment Information --&gt;</span>
+      <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;details-section&quot;</span><span class="s0">&gt;</span>
+        <span class="s0">&lt;h3 </span><span class="s2">class</span><span class="s3">=&quot;section-title&quot;</span><span class="s0">&gt;</span><span class="s1">Payment Details</span><span class="s0">&lt;/h3&gt;</span>
+
+        <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;payment-options&quot;</span><span class="s0">&gt;</span>
+          <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;payment-option&quot;</span><span class="s0">&gt;</span>
+            <span class="s0">&lt;input </span><span class="s2">type</span><span class="s3">=&quot;radio&quot; </span><span class="s2">name</span><span class="s3">=&quot;payment-method&quot; </span><span class="s2">id</span><span class="s3">=&quot;card-payment&quot; </span><span class="s2">checked</span><span class="s0">&gt;</span>
+            <span class="s0">&lt;label </span><span class="s2">for</span><span class="s3">=&quot;card-payment&quot;</span><span class="s0">&gt;</span><span class="s1">Credit/Debit Card</span><span class="s0">&lt;/label&gt;</span>
+
+            <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;payment-form card-form&quot;</span><span class="s0">&gt;</span>
+              <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;form-row&quot;</span><span class="s0">&gt;</span>
+                <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;form-group&quot;</span><span class="s0">&gt;</span>
+                  <span class="s0">&lt;label </span><span class="s2">class</span><span class="s3">=&quot;form-label&quot;</span><span class="s0">&gt;</span><span class="s1">Card Number</span><span class="s0">&lt;/label&gt;</span>
+                  <span class="s0">&lt;input </span><span class="s2">type</span><span class="s3">=&quot;text&quot; </span><span class="s2">class</span><span class="s3">=&quot;form-control&quot; </span><span class="s2">placeholder</span><span class="s3">=&quot;1234 5678 9012 3456&quot;</span><span class="s0">&gt;</span>
+                <span class="s0">&lt;/div&gt;</span>
+              <span class="s0">&lt;/div&gt;</span>
+
+              <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;form-row&quot;</span><span class="s0">&gt;</span>
+                <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;form-group&quot;</span><span class="s0">&gt;</span>
+                  <span class="s0">&lt;label </span><span class="s2">class</span><span class="s3">=&quot;form-label&quot;</span><span class="s0">&gt;</span><span class="s1">Cardholder Name</span><span class="s0">&lt;/label&gt;</span>
+                  <span class="s0">&lt;input </span><span class="s2">type</span><span class="s3">=&quot;text&quot; </span><span class="s2">class</span><span class="s3">=&quot;form-control&quot; </span><span class="s2">placeholder</span><span class="s3">=&quot;Name on card&quot;</span><span class="s0">&gt;</span>
+                <span class="s0">&lt;/div&gt;</span>
+              <span class="s0">&lt;/div&gt;</span>
+
+              <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;form-row&quot;</span><span class="s0">&gt;</span>
+                <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;form-group half-width&quot;</span><span class="s0">&gt;</span>
+                  <span class="s0">&lt;label </span><span class="s2">class</span><span class="s3">=&quot;form-label&quot;</span><span class="s0">&gt;</span><span class="s1">Expiration Date</span><span class="s0">&lt;/label&gt;</span>
+                  <span class="s0">&lt;input </span><span class="s2">type</span><span class="s3">=&quot;text&quot; </span><span class="s2">class</span><span class="s3">=&quot;form-control&quot; </span><span class="s2">placeholder</span><span class="s3">=&quot;MM / YY&quot;</span><span class="s0">&gt;</span>
+                <span class="s0">&lt;/div&gt;</span>
+
+                <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;form-group half-width&quot;</span><span class="s0">&gt;</span>
+                  <span class="s0">&lt;label </span><span class="s2">class</span><span class="s3">=&quot;form-label&quot;</span><span class="s0">&gt;</span><span class="s1">CVV</span><span class="s0">&lt;/label&gt;</span>
+                  <span class="s0">&lt;input </span><span class="s2">type</span><span class="s3">=&quot;text&quot; </span><span class="s2">class</span><span class="s3">=&quot;form-control&quot; </span><span class="s2">placeholder</span><span class="s3">=&quot;123&quot;</span><span class="s0">&gt;</span>
+                <span class="s0">&lt;/div&gt;</span>
+              <span class="s0">&lt;/div&gt;</span>
+
+              <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;card-icons&quot;</span><span class="s0">&gt;</span>
+                <span class="s0">&lt;span </span><span class="s2">class</span><span class="s3">=&quot;card-icon&quot;</span><span class="s0">&gt;</span><span class="s1">💳</span><span class="s0">&lt;/span&gt;</span>
+                <span class="s0">&lt;span&gt;</span><span class="s1">We accept Visa, Mastercard, American Express, and Discover</span><span class="s0">&lt;/span&gt;</span>
+              <span class="s0">&lt;/div&gt;</span>
+            <span class="s0">&lt;/div&gt;</span>
+          <span class="s0">&lt;/div&gt;</span>
+
+          <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;payment-option&quot;</span><span class="s0">&gt;</span>
+            <span class="s0">&lt;input </span><span class="s2">type</span><span class="s3">=&quot;radio&quot; </span><span class="s2">name</span><span class="s3">=&quot;payment-method&quot; </span><span class="s2">id</span><span class="s3">=&quot;pay-later&quot;</span><span class="s0">&gt;</span>
+            <span class="s0">&lt;label </span><span class="s2">for</span><span class="s3">=&quot;pay-later&quot;</span><span class="s0">&gt;</span><span class="s1">Pay at Restaurant</span><span class="s0">&lt;/label&gt;</span>
+
+            <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;payment-form pay-later-info&quot;</span><span class="s0">&gt;</span>
+              <span class="s0">&lt;p&gt;</span><span class="s1">No payment required now. You'll pay for your meal at the restaurant.</span><span class="s0">&lt;/p&gt;</span>
+              <span class="s0">&lt;p&gt;&lt;strong&gt;</span><span class="s1">Note:</span><span class="s0">&lt;/strong&gt; </span><span class="s1">A valid credit card may be required for certain reservations or during peak hours to secure your booking.</span><span class="s0">&lt;/p&gt;</span>
+            <span class="s0">&lt;/div&gt;</span>
+          <span class="s0">&lt;/div&gt;</span>
+        <span class="s0">&lt;/div&gt;</span>
+
+        <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;info-notice&quot;</span><span class="s0">&gt;</span>
+          <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;notice-icon&quot;</span><span class="s0">&gt;</span><span class="s1">ℹ️</span><span class="s0">&lt;/div&gt;</span>
+          <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;notice-text&quot;</span><span class="s0">&gt;</span>
+            <span class="s1">A credit card is required to secure your reservation. No charges will be made unless you fail to show up or cancel within 24 hours of your reservation time.</span>
+          <span class="s0">&lt;/div&gt;</span>
+        <span class="s0">&lt;/div&gt;</span>
+      <span class="s0">&lt;/div&gt;</span>
+
+      <span class="s4">&lt;!-- Cancellation Policy --&gt;</span>
+      <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;details-section&quot;</span><span class="s0">&gt;</span>
+        <span class="s0">&lt;h3 </span><span class="s2">class</span><span class="s3">=&quot;section-title&quot;</span><span class="s0">&gt;</span><span class="s1">Cancellation Policy</span><span class="s0">&lt;/h3&gt;</span>
+        <span class="s0">&lt;p </span><span class="s2">class</span><span class="s3">=&quot;policy-text&quot;</span><span class="s0">&gt;</span><span class="s1">Free cancellation up to 24 hours before your reservation. Cancellations made less than 24 hours in advance may incur a fee of $20 per person.</span><span class="s0">&lt;/p&gt;</span>
+      <span class="s0">&lt;/div&gt;</span>
+
+      <span class="s4">&lt;!-- Action Buttons --&gt;</span>
+      <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;action-buttons&quot;</span><span class="s0">&gt;</span>
+        <span class="s0">&lt;button </span><span class="s2">class</span><span class="s3">=&quot;secondary-btn&quot; </span><span class="s2">id</span><span class="s3">=&quot;modify-btn&quot;</span><span class="s0">&gt;</span><span class="s1">Modify Reservation</span><span class="s0">&lt;/button&gt;</span>
+        <span class="s0">&lt;button </span><span class="s2">class</span><span class="s3">=&quot;primary-btn&quot; </span><span class="s2">id</span><span class="s3">=&quot;confirm-btn&quot;</span><span class="s0">&gt;</span><span class="s1">Confirm</span><span class="s0">&lt;/button&gt;</span>
+      <span class="s0">&lt;/div&gt;</span>
+
+      <span class="s4">&lt;!-- Additional Information --&gt;</span>
+      <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;additional-info&quot;</span><span class="s0">&gt;</span>
+        <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;info-item&quot;</span><span class="s0">&gt;</span>
+          <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;info-icon&quot;</span><span class="s0">&gt;</span><span class="s1">📱</span><span class="s0">&lt;/div&gt;</span>
+          <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;info-content&quot;</span><span class="s0">&gt;</span>
+            <span class="s0">&lt;h4&gt;</span><span class="s1">Get SMS Updates</span><span class="s0">&lt;/h4&gt;</span>
+            <span class="s0">&lt;p&gt;</span><span class="s1">We'll send you a reminder 24 hours before your reservation.</span><span class="s0">&lt;/p&gt;</span>
+          <span class="s0">&lt;/div&gt;</span>
+        <span class="s0">&lt;/div&gt;</span>
+
+        <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;info-item&quot;</span><span class="s0">&gt;</span>
+          <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;info-icon&quot;</span><span class="s0">&gt;</span><span class="s1">📍</span><span class="s0">&lt;/div&gt;</span>
+          <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;info-content&quot;</span><span class="s0">&gt;</span>
+            <span class="s0">&lt;h4&gt;</span><span class="s1">Location</span><span class="s0">&lt;/h4&gt;</span>
+            <span class="s0">&lt;p&gt;</span><span class="s1">Hittin, Prince Mohammed bin Salman Street, Market, Riyadh</span><span class="s0">&lt;/p&gt;</span>
+              <span class="s0">&lt;a </span><span class="s2">href</span><span class="s3">=&quot;https://g.co/kgs/9MWLs1W&quot; </span><span class="s2">class</span><span class="s3">=&quot;map-link&quot; </span><span class="s2">target</span><span class="s3">=&quot;_blank&quot;</span><span class="s0">&gt;</span><span class="s1">View Map</span><span class="s0">&lt;/a&gt;</span>
+          <span class="s0">&lt;/div&gt;</span>
+        <span class="s0">&lt;/div&gt;</span>
+
+        <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;info-item&quot;</span><span class="s0">&gt;</span>
+          <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;info-icon&quot;</span><span class="s0">&gt;</span><span class="s1">📞</span><span class="s0">&lt;/div&gt;</span>
+          <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;info-content&quot;</span><span class="s0">&gt;</span>
+            <span class="s0">&lt;h4&gt;</span><span class="s1">Need Help?</span><span class="s0">&lt;/h4&gt;</span>
+            <span class="s0">&lt;p&gt;</span><span class="s1">Call the restaurant directly at 800 244 2245</span><span class="s0">&lt;/p&gt;</span>
+          <span class="s0">&lt;/div&gt;</span>
+        <span class="s0">&lt;/div&gt;</span>
+      <span class="s0">&lt;/div&gt;</span>
+    <span class="s0">&lt;/div&gt;</span>
+  <span class="s0">&lt;/div&gt;</span>
+
+  <span class="s0">&lt;script </span><span class="s2">src</span><span class="s3">=&quot;confirmation.js&quot;</span><span class="s0">&gt;&lt;/script&gt;</span>
+<span class="s0">&lt;/body&gt;</span>
+<span class="s0">&lt;/html&gt;</span></pre>
+</body>
+</html>

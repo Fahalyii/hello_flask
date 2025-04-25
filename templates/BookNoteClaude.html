@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Restaurant Booking | Reservv</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+      font-size: 1.05rem;
+    }
+
+    .navbar {
+      background-color: #d24b62;
+    }
+
+    .navbar-brand span {
+      color: #6eceae;
+      font-weight: bold;
+    }
+
+    .restaurant-hero {
+      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+        url('/api/placeholder/1200/600') no-repeat center center;
+      background-size: cover;
+      color: white;
+      padding: 120px 0;
+    }
+
+    .restaurant-info {
+      padding: 40px 0;
+    }
+
+    .detail-icon {
+      color: #d24b62;
+      margin-right: 10px;
+    }
+
+    .btn-reserve {
+      background-color: #d24b62;
+      color: white;
+      padding: 12px 30px;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 30px;
+      transition: all 0.3s;
+    }
+
+    .btn-reserve:hover {
+      background-color: #c13a52;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      color: white;
+    }
+
+    .menu-section {
+      background-color: white;
+      padding: 50px 0;
+    }
+
+    .menu-card {
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .card-img-menu {
+      height: 200px;
+      object-fit: cover;
+    }
+
+    /* Booking modal/page specific styles */
+    .booking-page {
+      display: none;
+      background-color: #f8f9fa;
+      padding: 50px 0;
+    }
+
+    .booking-form {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .time-slot {
+      display: inline-block;
+      border: 1px solid #d24b62;
+      color: #d24b62;
+      padding: 8px 16px;
+      margin: 5px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .time-slot:hover, .time-slot.selected {
+      background-color: #d24b62;
+      color: white;
+    }
+
+    .booking-summary {
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+
+    footer {
+      background: #222;
+      color: #ccc;
+      padding: 30px 0;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="/">RESERV<span>V</span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="restaurants">Restaurants</a></li>
+          <li class="nav-item"><a class="nav-link" href="/aboutUs">About Us</a></li>
+          <li class="nav-item"><a class="nav-link nav-btn" href="/login">Login / Register</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Restaurant Page Content -->
+  <div id="restaurant-page">
+    <!-- Restaurant Hero -->
+    <section class="restaurant-hero">
+      <div class="container text-center">
+        <h1 class="display-4 fw-bold">Al Orjouan Restaurant</h1>
+        <p class="lead">Fine Middle Eastern Cuisine</p>
+        <div class="mt-4">
+          <span class="badge bg-light text-dark me-2">Middle Eastern</span>
+          <span class="badge bg-light text-dark me-2">Contemporary</span>
+          <span class="badge bg-light text-dark">$$$$</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Restaurant Info -->
+    <section class="restaurant-info">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8">
+            <h2 class="mb-4">About Al Orjouan</h2>
+            <p>Experience the rich flavors of Middle Eastern cuisine at Al Orjouan. Our restaurant offers a refined dining experience with authentic dishes prepared by our master chefs. From tender kebabs to aromatic rice dishes, each meal is crafted with the finest ingredients.</p>
+
+            <div class="row mt-4">
+              <div class="col-md-6">
+                <p><i class="fas fa-map-marker-alt detail-icon"></i> Olaya Street, Riyadh</p>
+                <p><i class="fas fa-phone detail-icon"></i> +966 11 234 5678</p>
+              </div>
+              <div class="col-md-6">
+                <p><i class="fas fa-clock detail-icon"></i> 12:00 PM - 11:00 PM</p>
+                <p><i class="fas fa-star detail-icon"></i> 4.8/5 (320 reviews)</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 text-center mt-4 mt-lg-0">
+            <div class="card p-4">
+              <h4 class="mb-3">Make a Reservation</h4>
+              <button id="book-now" class="btn btn-reserve mt-2">Book a Table</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Menu Preview -->
+    <section class="menu-section">
+      <div class="container">
+        <h2 class="text-center mb-5">Menu Highlights</h2>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="card menu-card">
+              <img src="/api/placeholder/400/320" class="card-img-top card-img-menu" alt="Mixed Grill">
+              <div class="card-body">
+                <h5 class="card-title">Mixed Grill Platter</h5>
+                <p class="card-text">Selection of lamb kofta, chicken and beef kebabs served with grilled vegetables.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card menu-card">
+              <img src="/api/placeholder/400/320" class="card-img-top card-img-menu" alt="Seafood">
+              <div class="card-body">
+                <h5 class="card-title">Seafood Tagine</h5>
+                <p class="card-text">Fresh local seafood slow-cooked with aromatic spices and fresh vegetables.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card menu-card">
+              <img src="/api/placeholder/400/320" class="card-img-top card-img-menu" alt="Dessert">
+              <div class="card-body">
+                <h5 class="card-title">Kunafa Nabulsia</h5>
+                <p class="card-text">Traditional sweet cheese pastry soaked in sugar syrup and topped with pistachios.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Booking Page -->
+  <div id="booking-page" class="booking-page">
+    <div class="container">
+      <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#" id="back-to-restaurant">Restaurant</a></li>
+          <li class="breadcrumb-item active">Book a Table</li>
+        </ol>
+      </nav>
+
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="booking-form">
+            <h2 class="mb-4">Book a Table at Al Orjouan</h2>
+
+            <form id="reservation-form">
+              <div class="row">
+                <!-- Date Selection -->
+                <div class="col-md-6 form-group">
+                  <label for="booking-date" class="form-label">Select Date</label>
+                  <input type="date" class="form-control" id="booking-date" required>
+                </div>
+
+                <!-- Party Size -->
+                <div class="col-md-6 form-group">
+                  <label for="party-size" class="form-label">Number of Guests</label>
+                  <select class="form-select" id="party-size" required>
+                    <option value="">Select number of guests</option>
+                    <option value="1">1 Person</option>
+                    <option value="2">2 People</option>
+                    <option value="3">3 People</option>
+                    <option value="4">4 People</option>
+                    <option value="5">5 People</option>
+                    <option value="6">6 People</option>
+                    <option value="7+">7+ People (Special Arrangement)</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Time Slots -->
+              <div class="form-group">
+                <label class="form-label">Select Time</label>
+                <div class="time-slots">
+                  <div class="time-slot">12:00 PM</div>
+                  <div class="time-slot">12:30 PM</div>
+                  <div class="time-slot">1:00 PM</div>
+                  <div class="time-slot">1:30 PM</div>
+                  <div class="time-slot">2:00 PM</div>
+                  <div class="time-slot">6:00 PM</div>
+                  <div class="time-slot">6:30 PM</div>
+                  <div class="time-slot">7:00 PM</div>
+                  <div class="time-slot">7:30 PM</div>
+                  <div class="time-slot">8:00 PM</div>
+                  <div class="time-slot">8:30 PM</div>
+                  <div class="time-slot">9:00 PM</div>
+                </div>
+                <input type="hidden" id="selected-time" required>
+              </div>
+
+              <!-- Contact Details -->
+              <div class="mt-4">
+                <h5>Contact Details</h5>
+                <div class="row">
+                  <div class="col-md-6 form-group">
+                    <label for="name" class="form-label">Full Name</label>
+                    <input type="text" class="form-control" id="name" placeholder="Your Name" required>
+                  </div>
+                  <div class="col-md-6 form-group">
+                    <label for="phone" class="form-label">Phone Number</label>
+                    <input type="tel" class="form-control" id="phone" placeholder="e.g., +966 5X XXX XXXX" required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="email" class="form-label">Email Address</label>
+                  <input type="email" class="form-control" id="email" placeholder="your.email@example.com" required>
+                </div>
+                <div class="form-group">
+                  <label for="special-requests" class="form-label">Special Requests (Optional)</label>
+                  <textarea class="form-control" id="special-requests" rows="3" placeholder="Any special requests or dietary requirements"></textarea>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <div class="d-grid gap-2 mt-4">
+                <button type="submit" class="btn btn-reserve">Confirm Reservation</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Booking Summary -->
+        <div class="col-lg-4 mt-4 mt-lg-0">
+          <div class="booking-summary">
+            <h4>Reservation Summary</h4>
+            <div class="mt-3">
+              <p><strong>Restaurant:</strong> Al Orjouan</p>
+              <p id="summary-date"><strong>Date:</strong> <span>Please select</span></p>
+              <p id="summary-time"><strong>Time:</strong> <span>Please select</span></p>
+              <p id="summary-guests"><strong>Party Size:</strong> <span>Please select</span></p>
+            </div>
+            <hr>
+            <div class="restaurant-details">
+              <p><i class="fas fa-map-marker-alt detail-icon"></i> Olaya Street, Riyadh</p>
+              <p><i class="fas fa-phone detail-icon"></i> +966 11 234 5678</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div class="modal fade" id="success-modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Reservation Confirmed!</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center">
+          <i class="fas fa-check-circle text-success" style="font-size: 4rem;"></i>
+          <h4 class="mt-3">Thank You!</h4>
+          <p>Your reservation at Al Orjouan has been confirmed.</p>
+          <div id="confirmation-details" class="mt-3 text-start">
+            <!-- Reservation details will be shown here -->
+          </div>
+          <p class="mt-3">A confirmation has been sent to your email.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p class="mb-0">© 2025 Reservv. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    $(document).ready(function() {
+      // Handle Book Now button
+      $('#book-now').click(function() {
+        $('#restaurant-page').hide();
+        $('#booking-page').show();
+      });
+
+      // Back to restaurant
+      $('#back-to-restaurant').click(function(e) {
+        e.preventDefault();
+        $('#booking-page').hide();
+        $('#restaurant-page').show();
+      });
+
+      // Time slot selection
+      $('.time-slot').click(function() {
+        $('.time-slot').removeClass('selected');
+        $(this).addClass('selected');
+        $('#selected-time').val($(this).text());
+        $('#summary-time span').text($(this).text());
+      });
+
+      // Update summary when date changes
+      $('#booking-date').change(function() {
+        $('#summary-date span').text($(this).val());
+      });
+
+      // Update summary when party size changes
+      $('#party-size').change(function() {
+        $('#summary-guests span').text($(this).val() + ($(this).val() === '1' ? ' Person' : ' People'));
+      });
+
+      // Form submission
+      $('#reservation-form').submit(function(e) {
+        e.preventDefault();
+
+        // Validate form
+        if (!$('#selected-time').val()) {
+          alert('Please select a time slot');
+          return;
+        }
+
+        // Show confirmation details in modal
+        $('#confirmation-details').html(`
+          <p><strong>Date:</strong> ${$('#booking-date').val()}</p>
+          <p><strong>Time:</strong> ${$('#selected-time').val()}</p>
+          <p><strong>Party Size:</strong> ${$('#party-size').val()}</p>
+          <p><strong>Name:</strong> ${$('#name').val()}</p>
+          <p><strong>Phone:</strong> ${$('#phone').val()}</p>
+        `);
+
+        // Show success modal
+        var successModal = new bootstrap.Modal(document.getElementById('success-modal'));
+        successModal.show();
+
+        // Reset form and go back to restaurant page after closing modal
+        $('#success-modal').on('hidden.bs.modal', function() {
+          $('#reservation-form')[0].reset();
+          $('#booking-page').hide();
+          $('#restaurant-page').show();
+        });
+      });
+    });
+  </script>
+</body>
+</html>
