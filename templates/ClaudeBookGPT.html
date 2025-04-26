@@ -269,26 +269,43 @@
 </head>
 <body>
 
- <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
   <div class="container">
-    <a class="navbar-brand" href="/">RESERV<span class="V">V</span></a>
+    <a class="navbar-brand" href="/">RESERV<span>V</span></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="/restaurants">Restaurants</a></li>
-        <li class="nav-item"><a class="nav-link" href="/aboutUs">About Us</a></li>
+        <li class="nav-item">
+          <a class="nav-link" href="/restaurants">
+            <i class="bi bi-grid me-1"></i>Restaurants
+          </a>
+        </li>
+
         {% if current_user.is_authenticated %}
-          <li class="nav-item"><a class="nav-link nav-btn" href="/auth/logout">Logout</a></li>
+          <li class="nav-item">
+            <a class="nav-link" href="/reservations">
+              <i class="bi bi-calendar-check me-1"></i>My Reservations
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-btn" href="/auth/logout">
+              <i class="bi bi-box-arrow-right me-1"></i>Logout
+            </a>
+          </li>
         {% else %}
-          <li class="nav-item"><a class="nav-link nav-btn" href="/auth/login">Login / Register</a></li>
+          <li class="nav-item">
+            <a class="nav-link" href="/auth/login">
+              <i class="bi bi-box-arrow-in-right me-1"></i>Login / Register
+            </a>
+          </li>
         {% endif %}
       </ul>
     </div>
   </div>
 </nav>
+
 
 
   <!-- Hero Banner -->

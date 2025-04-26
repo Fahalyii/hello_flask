@@ -286,21 +286,35 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for reservation in reservations %}
-                    <tr>
-                        <td>#{{ reservation.id }}</td>
-                        <td>{{ reservation.user.name }}</td>
-                        <td>{{ reservation.date }}</td>
-                        <td>{{ reservation.time.strftime('%H:%M') }}</td>
-                        <td>{{ reservation.guest_count }}</td>
-                        <td>
-                            <span class="status {% if reservation.status == 'Confirmed' %}status-confirmed{% elif reservation.status == 'Pending' %}status-pending{% else %}status-cancelled{% endif %}">
-                                {{ reservation.status }}
-                            </span>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
+    {% for reservation in reservations %}
+    <tr>
+        <td>#{{ reservation.id }}</td>
+        <td>{{ reservation.user.name }}</td>
+        <td>{{ reservation.date }}</td>
+        <td>{{ reservation.time.strftime('%H:%M') }}</td>
+        <td>{{ reservation.guest_count }}</td>
+        <td>
+            {% if reservation.status == 'Pending' %}
+                <form action="{{ url_for('reservation.confirm_reservation', reservation_id=reservation.id) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-success btn-sm">Accept</button>
+                </form>
+                <form action="{{ url_for('reservation.reject_reservation', reservation_id=reservation.id) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                </form>
+            {% else %}
+                <span class="status
+                    {% if reservation.status == 'Confirmed' %}status-confirmed
+                    {% elif reservation.status == 'Pending' %}status-pending
+                    {% elif reservation.status == 'Awaiting Payment' %}status-warning
+                    {% else %}status-cancelled{% endif %}">
+                    {{ reservation.status }}
+                </span>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</tbody>
+
             </table>
             {% else %}
             <div class="empty-state">

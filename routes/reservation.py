@@ -39,7 +39,7 @@ def reserve_table(restaurant_id):
             date=datetime.strptime(date_str, "%Y-%m-%d").date(),
             time=datetime.strptime(time_str, "%H:%M").time(),
             guest_count=int(guest_count),
-            status='Confirmed'
+            status='Pending'
         )
 
         table.is_available = False
@@ -146,4 +146,67 @@ def cancel_reservation(reservation_id):
     except Exception as e:
         print(f"ERROR: {str(e)}")
         flash('Internal server error.', 'danger')
+        return redirect(url_for('reservation.view_reservations'))
+
+@reservation_bp.route('/confirm_reservation/<int:reservation_id>', methods=['POST'])
+@login_required
+def confirm_reservation(reservation_id):
+    reservation = Reservation.query.get_or_404(reservation_id)
+
+    if current_user.role != "restaurant_manager":
+        flash('Unauthorized access.', 'danger')
+        return redirect(url_for('dashboard'))
+
+    reservation.status = 'Awaiting Payment'
+    reservation.table.is_available = False  # Optional: Keep table unavailable if confirmed
+
+    db.session.commit()
+    send_notification(reservation.user_id, "Your reservation has been accepted. Please pay 1 riyal within 5 minutes.")
+
+    flash('Reservation accepted. Awaiting customer payment.', 'info')
+
+    return redirect(url_for('dashboard'))
+
+
+@reservation_bp.route('/reject_reservation/<int:reservation_id>', methods=['POST'])
+@login_required
+def reject_reservation(reservation_id):
+    reservation = Reservation.query.get_or_404(reservation_id)
+
+    if current_user.role != "restaurant_manager":
+        flash('Unauthorized access.', 'danger')
+        return redirect(url_for('manager.dashboard'))
+
+    reservation.status = 'Cancelled'
+    reservation.table.is_available = True  # Free the table
+    db.session.commit()
+
+    send_notification(reservation.user_id, "Your reservation has been rejected.")
+    flash('Reservation rejected successfully.', 'success')
+    return redirect(url_for('dashboard'))
+
+
+@reservation_bp.route('/pay_reservation/<int:reservation_id>', methods=['POST'])
+@login_required
+def pay_reservation(reservation_id):
+    reservation = Reservation.query.get_or_404(reservation_id)
+
+    if reservation.user_id != current_user.id:
+        flash('Unauthorized action.', 'danger')
+        return redirect(url_for('reservation.view_reservations'))
+
+    if reservation.status != 'Awaiting Payment':
+        flash('Invalid payment attempt.', 'danger')
+        return redirect(url_for('reservation.view_reservations'))
+
+    try:
+        # Simulate payment success
+        reservation.status = 'Confirmed'
+        db.session.commit()
+
+        flash('Payment successful! Your reservation is now confirmed.', 'success')
+        return redirect(url_for('reservation.view_reservations'))
+    except Exception as e:
+        print(f"ERROR: {str(e)}")
+        flash('Payment failed. Try again.', 'danger')
         return redirect(url_for('reservation.view_reservations'))
