@@ -5,6 +5,7 @@ from database import db
 from routes import init_routes
 from models import User, Restaurant
 from flask import request, render_template
+from flask_login import login_required, current_user
 
 
 app = Flask(__name__)
@@ -19,6 +20,7 @@ login_manager.init_app(app)
 login_manager.login_view = 'auth.login'
 from flask import request, render_template
 from models import Restaurant
+
 
 @app.route('/search')
 def search_restaurants():
@@ -65,10 +67,27 @@ def aboutUs():
 @app.route('/restaurant')
 def restaurant():
     return render_template('restaurant.html')
+@app.route('/login')
+def login():
+    return render_template('login.html')
 
+@app.route('/register')
+def register():
+    return render_template('register.html')
 @app.route('/test')
 def test():
     return render_template('test.html')
+
+@app.route('/dashboard')
+@login_required
+def dashboard():
+    return render_template('dashboard.html')
+
+@app.route('/ClaudeBookGPT.html')
+def claude_book():
+    return render_template('ClaudeBookGPT.html')
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -24,13 +24,14 @@ class Restaurant(db.Model):
     name = db.Column(db.String(100), nullable=False)
     location = db.Column(db.String(200))
     cuisine = db.Column(db.String(100))
-    image = db.Column(db.String(255))
+    image = db.Column(db.String(255))             # Restaurant normal picture
+    menu_image = db.Column(db.String(255))         # Menu picture
     manager_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     tables = db.relationship('Table', backref='restaurant', lazy=True)
-    menu_items = db.relationship('MenuItem', backref='restaurant', lazy=True)
     reviews = db.relationship('Review', backref='restaurant', lazy=True)
     waitlists = db.relationship('Waitlist', backref='restaurant', lazy=True)
+
 
 # -------------------------------
 # Table Table

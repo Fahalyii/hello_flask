@@ -304,7 +304,11 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="restaurants">Restaurants</a></li>
                     <li class="nav-item"><a class="nav-link" href="/aboutUs">About Us</a></li>
-                    <li class="nav-item"><a class="nav-link nav-btn" href="/login">Login / Register</a></li>
+{% if current_user.is_authenticated %}
+  <li class="nav-item"><a class="nav-link nav-btn" href="/auth/logout">Logout</a></li>
+{% else %}
+  <li class="nav-item"><a class="nav-link nav-btn" href="/auth/login">Login / Register</a></li>
+{% endif %}
                 </ul>
             </div>
         </div>
@@ -431,7 +435,7 @@
                 </div>
                 <div class="row">
                     <div class="col-6">
-                        <a href="/reserve/{{ restaurant.id }}" class="btn book-btn w-100"><i class="bi bi-calendar-check"></i> Book</a>
+                        <a href="/ClaudeBookGPT.html?id={{ restaurant.id }}" class="btn book-btn w-100">Book a Table</a>
                     </div>
                     <div class="col-6">
                         <a href="/restaurant/{{ restaurant.id }}" class="btn view-btn w-100">View Details</a>
@@ -546,14 +550,7 @@
             document.querySelector('input[type="text"]').value = '';
         });
 
-        // Book button functionality
-        document.querySelectorAll('.book-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const restaurantName = this.closest('.restaurant-card').querySelector('.restaurant-title').textContent;
-                alert(`You're about to book a table at ${restaurantName}. Redirecting to booking page...`);
-                // In a real app, redirect to booking page or open modal
-            });
-        });
+
 
         // View details functionality
         document.querySelectorAll('.view-btn').forEach(btn => {

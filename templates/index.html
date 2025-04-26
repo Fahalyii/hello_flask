@@ -402,7 +402,11 @@
                     <li class="nav-item"><a class="nav-link" href="restaurants">Restaurants</a></li>
                     <li class="nav-item"><a class="nav-link" href="#how-it-works">How It Works</a></li>
                     <li class="nav-item"><a class="nav-link" href="/aboutUs">About Us</a></li>
-                    <li class="nav-item"><a class="nav-link nav-btn" href="/login">Login / Register</a></li>
+{% if current_user.is_authenticated %}
+  <li class="nav-item"><a class="nav-link nav-btn" href="/auth/logout">Logout</a></li>
+{% else %}
+  <li class="nav-item"><a class="nav-link nav-btn" href="/auth/login">Login / Register</a></li>
+{% endif %}
                 </ul>
             </div>
         </div>
@@ -532,7 +536,7 @@
                         <small class="text-muted">({{ restaurant.review_count or 0 }} reviews)</small>
                     </div>
                     <div class="mt-3">
-                        <a href="/reserve/{{ restaurant.id }}" class="btn book-btn w-100">Book a Table</a>
+                        <a href="/ClaudeBookGPT.html?id={{ restaurant.id }}" class="btn book-btn w-100">Book a Table</a>
                     </div>
                 </div>
             </div>
