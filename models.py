@@ -28,6 +28,7 @@ class Restaurant(db.Model):
     image = db.Column(db.String(255))             # Restaurant normal picture
     menu_image = db.Column(db.String(255))         # Menu picture
     manager_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    price = db.Column(db.String(50))
 
     tables = db.relationship('Table', backref='restaurant', lazy=True)
     reviews = db.relationship('Review', backref='restaurant', lazy=True)

@@ -37,23 +37,47 @@ def search_restaurants():
     return render_template('restaurants.html', restaurants=restaurants)
 from sqlalchemy import func
 
+
 @app.route('/restaurants')
 def restaurants():
     cuisine = request.args.get('cuisine')
+    rating_filter = request.args.get('rating', type=int)
+    price_filter = request.args.get('price')
+
     query = Restaurant.query
 
-    if cuisine:
+    # Filter by Cuisine
+    if cuisine and cuisine != "All Cuisines":
         query = query.filter(Restaurant.cuisine == cuisine)
+
+    # Filter by Price
+    if price_filter:
+        try:
+            price_filter = int(price_filter)  # ✅ Convert to integer safely
+            if price_filter == 101:
+                query = query.filter(Restaurant.price > 100)
+            else:
+                query = query.filter(Restaurant.price <= price_filter)
+        except ValueError:
+            pass  # In case of invalid input, ignore price filter
 
     restaurants = query.all()
 
-    # Calculate average ratings for each restaurant
+    # Calculate average rating and review count for each restaurant
     for restaurant in restaurants:
         avg_rating = db.session.query(func.avg(Review.rating)).filter(Review.restaurant_id == restaurant.id).scalar()
-        if avg_rating:
-            restaurant.rating = round(avg_rating, 1)  # round to 1 decimal place
+        review_count = db.session.query(func.count(Review.id)).filter(Review.restaurant_id == restaurant.id).scalar()
+
+        if avg_rating is not None:
+            restaurant.rating = round(avg_rating, 1)
         else:
-            restaurant.rating = None  # No reviews yet
+            restaurant.rating = None
+
+        restaurant.review_count = review_count or 0
+
+    # Filter by Rating (AFTER calculating)
+    if rating_filter:
+        restaurants = [r for r in restaurants if r.rating and r.rating >= rating_filter]
 
     return render_template('restaurants.html', restaurants=restaurants)
 

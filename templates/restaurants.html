@@ -364,24 +364,26 @@
                 <div class="col-md-2">
                     <div class="mb-3">
                         <label class="filter-label">Price Range</label>
-                        <select class="form-select">
-                            <option selected>Any Price</option>
-                            <option>$</option>
-                            <option>$$</option>
-                            <option>$$$</option>
-                            <option>$$$$</option>
-                        </select>
+                        <select class="form-select" name="price">
+    <option value="">Any Price</option>
+    <option value="30">Under $30</option>
+    <option value="50">Under $50</option>
+    <option value="100">Under $100</option>
+    <option value="101">Above $100</option>
+</select>
+
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="mb-3">
                         <label class="filter-label">Rating</label>
-                        <select class="form-select">
-                            <option selected>Any Rating</option>
-                            <option>4+ Stars</option>
-                            <option>3+ Stars</option>
-                            <option>2+ Stars</option>
-                        </select>
+                        <select class="form-select" name="rating">
+    <option value="">Any Rating</option>
+    <option value="4">4+ Stars</option>
+    <option value="3">3+ Stars</option>
+    <option value="2">2+ Stars</option>
+</select>
+
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -392,7 +394,6 @@
                             <option>Outdoor Seating</option>
                             <option>Private Dining</option>
                             <option>Family Friendly</option>
-                            <option>Live Music</option>
                         </select>
                     </div>
                 </div>
@@ -443,12 +444,15 @@
                 <p class="restaurant-cuisine">{{ restaurant.cuisine }}</p>
                 <p class="restaurant-location"><i class="bi bi-geo-alt"></i> {{ restaurant.location }}</p>
                 <div class="d-flex align-items-center">
-                    <span class="restaurant-rating"><i class="bi bi-star-fill"></i> {{ restaurant.rating }}</span>
-                    <span class="text-muted">({{ restaurant.review_count or 0 }} reviews)</span>
-                    <span class="restaurant-price">$$</span>
-                </div>
+    <span class="restaurant-rating"><i class="bi bi-star-fill"></i> {{ restaurant.rating }}</span>
+    <span class="text-muted">({{ restaurant.review_count or 0 }} reviews)</span>
+    {% if restaurant.price %}
+<span class="restaurant-price">{{ restaurant.price }}$ and over</span>
+{% endif %}
+
+</div>
+
                 <div class="restaurant-features">
-                    <span class="feature-tag"><i class="bi bi-clock"></i> Open Now</span>
                 </div>
                 <div class="row">
                     <div class="col-6">

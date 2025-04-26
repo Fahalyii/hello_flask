@@ -96,10 +96,9 @@ def get_restaurant_api(restaurant_id):
     if not r:
         return jsonify({"status": "error", "message": "Not found"}), 404
 
-    # No need to add 'images/' manually because your database already stores "images/xxx.jpg"
-    image_filename = r.menu_image or r.image
-    if image_filename:
-        image_url = url_for('static', filename=image_filename)
+    # Corrected: always use restaurant main image first
+    if r.image:
+        image_url = url_for('static', filename=r.image)
     else:
         image_url = url_for('static', filename='images/default_restaurant.jpg')
 
@@ -110,7 +109,10 @@ def get_restaurant_api(restaurant_id):
             "name": r.name,
             "location": r.location,
             "cuisine": r.cuisine,
-            "image": image_url
+            "image": image_url,
+            "menu_image": url_for('static', filename=r.menu_image) if r.menu_image else None,  # separate
+            "avg_rating": 4.5,  # (optional: add real avg_rating calculation if you want)
+            "price": r.price
         }
     })
 
