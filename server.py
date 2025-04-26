@@ -78,14 +78,40 @@ def register():
 def test():
     return render_template('test.html')
 
-@app.route('/dashboard')
-@login_required
-def dashboard():
-    return render_template('dashboard.html')
+
 
 @app.route('/ClaudeBookGPT.html')
 def claude_book():
     return render_template('ClaudeBookGPT.html')
+
+
+@app.route('/dashboard')
+@login_required
+def dashboard():
+    if current_user.role == "restaurant_manager":
+        assigned_restaurant = Restaurant.query.filter_by(manager_id=current_user.id).first()
+
+        if not assigned_restaurant:
+            return render_template('wait_admin.html')
+
+        reservations = []
+        for table in assigned_restaurant.tables:
+            for reservation in table.reservations:
+                reservations.append(reservation)
+
+        available_seats = sum(table.capacity for table in assigned_restaurant.tables if table.is_available)
+
+        # 🔥 NEW: calculate guest_sum in backend
+        guest_sum = sum(reservation.guest_count for reservation in reservations)
+
+        return render_template('manager_dashboard.html',
+                               restaurant=assigned_restaurant,
+                               reservations=reservations,
+                               available_seats=available_seats,
+                               guest_sum=guest_sum)
+    else:
+        return render_template('index.html')
+
 
 
 

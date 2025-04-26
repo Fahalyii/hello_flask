@@ -1,5 +1,6 @@
 from database import db
 from flask_login import UserMixin
+from datetime import datetime
 
 # -------------------------------
 # User Table
@@ -55,6 +56,7 @@ class Reservation(db.Model):
     date = db.Column(db.Date, nullable=False)
     time = db.Column(db.Time, nullable=False)
     guest_count = db.Column(db.Integer)
+    
 
 # -------------------------------
 # Waitlist Table
@@ -90,9 +92,10 @@ class MenuItem(db.Model):
 # Review Table
 # -------------------------------
 class Review(db.Model):
+    __tablename__ = 'review'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurant.id'))
-    rating = db.Column(db.Integer)  # 1 to 5
-    comment = db.Column(db.String(255))
-    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurant.id'), nullable=False)
+    reservation_id = db.Column(db.Integer, db.ForeignKey('reservation.id'), nullable=False)
+    rating = db.Column(db.Integer, nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)

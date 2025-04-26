@@ -19,12 +19,14 @@ def login():
         if user and check_password_hash(user.password, password):
             login_user(user)
             flash('Logged in successfully.', 'success')
-            return redirect(url_for('home'))
+
+            return redirect(url_for('dashboard'))  # <----- FIXED: GO TO DASHBOARD
         else:
             flash('Invalid email or password.', 'danger')
             return redirect(url_for('auth.login'))
 
     return render_template('login.html')
+
 
 
 @auth_bp.route('/register', methods=['GET', 'POST'])
