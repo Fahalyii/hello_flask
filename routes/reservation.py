@@ -3,9 +3,9 @@
 from flask import Blueprint, request, redirect, url_for, flash, jsonify, render_template
 from flask_login import login_required, current_user
 from models import db, Reservation, Table, Notification
-from datetime import datetime
+from datetime import datetime, date, time
 from flask_login import login_required
-
+from datetime import datetime
 reservation_bp = Blueprint('reservation', __name__)
 
 # Utility function: Send notification
@@ -15,6 +15,8 @@ def send_notification(user_id, message):
     db.session.commit()
 
 # ✅ 1. Reserve a Table (Form POST)
+
+
 @reservation_bp.route('/reserve/<int:restaurant_id>', methods=['POST'])
 @login_required
 def reserve_table(restaurant_id):
@@ -33,21 +35,24 @@ def reserve_table(restaurant_id):
         return redirect(url_for('restaurant.list_restaurants_page'))
 
     try:
+        # 🔥 Parse date and time properly
+        reservation_date = datetime.strptime(date_str, "%Y-%m-%d").date()
+        reservation_time = datetime.strptime(time_str, "%H:%M").time()
+        guest_count = int(guest_count)
+
         new_reservation = Reservation(
             user_id=current_user.id,
             table_id=table.id,
-            date=datetime.strptime(date_str, "%Y-%m-%d").date(),
-            time=datetime.strptime(time_str, "%H:%M").time(),
-            guest_count=int(guest_count),
+            restaurant_id=table.restaurant_id,
+            date=reservation_date,
+            time=reservation_time,
+            guest_count=guest_count,
             status='Pending'
         )
 
         table.is_available = False
         db.session.add(new_reservation)
         db.session.commit()
-
-        # Optional: send notification if you still use it
-        # send_notification(current_user.id, "Your reservation has been confirmed!")
 
         flash("Reservation created!", "success")
         return redirect(url_for('reservation.view_reservations'))

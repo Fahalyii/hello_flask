@@ -3,10 +3,10 @@ from flask_login import LoginManager
 from config import Config
 from database import db
 from routes import init_routes
-from models import User, Restaurant
+from models import User, Restaurant, Review
 from flask import request, render_template
 from flask_login import login_required, current_user
-
+from sqlalchemy import func
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -35,6 +35,8 @@ def search_restaurants():
         restaurants = Restaurant.query.all()
 
     return render_template('restaurants.html', restaurants=restaurants)
+from sqlalchemy import func
+
 @app.route('/restaurants')
 def restaurants():
     cuisine = request.args.get('cuisine')
@@ -44,7 +46,17 @@ def restaurants():
         query = query.filter(Restaurant.cuisine == cuisine)
 
     restaurants = query.all()
+
+    # Calculate average ratings for each restaurant
+    for restaurant in restaurants:
+        avg_rating = db.session.query(func.avg(Review.rating)).filter(Review.restaurant_id == restaurant.id).scalar()
+        if avg_rating:
+            restaurant.rating = round(avg_rating, 1)  # round to 1 decimal place
+        else:
+            restaurant.rating = None  # No reviews yet
+
     return render_template('restaurants.html', restaurants=restaurants)
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -113,6 +125,21 @@ def dashboard():
         return render_template('index.html')
 
 
+@app.route('/restaurant/<int:restaurant_id>')
+def restaurant_details(restaurant_id):
+    restaurant = Restaurant.query.get_or_404(restaurant_id)
+    reviews = Review.query.filter_by(restaurant_id=restaurant_id).order_by(Review.timestamp.desc()).all()
+    avg_rating = db.session.query(func.avg(Review.rating)).filter(Review.restaurant_id == restaurant_id).scalar()
+
+    if avg_rating:
+        avg_rating = round(avg_rating, 1)
+    else:
+        avg_rating = "N/A"
+
+    return render_template('restaurant_details.html',
+                           restaurant=restaurant,
+                           reviews=reviews,
+                           avg_rating=avg_rating)
 
 
 if __name__ == "__main__":

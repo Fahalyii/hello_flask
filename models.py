@@ -52,11 +52,14 @@ class Reservation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     table_id = db.Column(db.Integer, db.ForeignKey('table.id'))
-    status = db.Column(db.String(50), default='Confirmed')  # Pending, Awaiting Payment, Confirmed, Cancelled
+    restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurant.id'))
+    status = db.Column(db.String(50), default='Pending')
     date = db.Column(db.Date, nullable=False)
     time = db.Column(db.Time, nullable=False)
     guest_count = db.Column(db.Integer)
-    
+
+    reviews = db.relationship('Review', backref='reservation', lazy=True)  # 🔥 Add this line
+
 
 # -------------------------------
 # Waitlist Table
@@ -91,6 +94,7 @@ class MenuItem(db.Model):
 # -------------------------------
 # Review Table
 # -------------------------------
+# Review Table
 class Review(db.Model):
     __tablename__ = 'review'
     id = db.Column(db.Integer, primary_key=True)
@@ -98,4 +102,6 @@ class Review(db.Model):
     restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurant.id'), nullable=False)
     reservation_id = db.Column(db.Integer, db.ForeignKey('reservation.id'), nullable=False)
     rating = db.Column(db.Integer, nullable=False)
+    comment = db.Column(db.Text)  # 🔥 Add this
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+

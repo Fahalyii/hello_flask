@@ -81,16 +81,41 @@
               <p class="card-text mb-1"><i class="bi bi-people"></i> Guests: {{ res.guest_count }}</p>
               <p class="card-text mb-1"><i class="bi bi-info-circle"></i> Status:
                 {% if res.status == 'Pending' %}
-                    <span class="text-warning fw-semibold">{{ res.status }}</span>
-                {% elif res.status == 'Awaiting Payment' %}
-                    <form action="{{ url_for('reservation.pay_reservation', reservation_id=res.id) }}" method="POST" style="margin-top: 5px;">
-                      <button type="submit" class="btn btn-warning btn-sm">Pay 1 Riyal</button>
-                    </form>
-                {% elif res.status == 'Confirmed' %}
-                    <span class="text-success fw-semibold">{{ res.status }}</span>
-                {% else %}
-                    <span class="text-danger fw-semibold">{{ res.status }}</span>
-                {% endif %}
+  <span class="text-warning fw-semibold">{{ res.status }}</span>
+{% elif res.status == 'Awaiting Payment' %}
+  <form action="{{ url_for('reservation.pay_reservation', reservation_id=res.id) }}" method="POST" style="margin-top: 5px;">
+    <button type="submit" class="btn btn-warning btn-sm">Pay 1 Riyal</button>
+  </form>
+{% elif res.status == 'Confirmed' %}
+  <span class="text-success fw-semibold">{{ res.status }}</span>
+
+ <form method="POST" action="{{ url_for('review.submit', reservation_id=res.id) }}">
+  <div class="mb-2">
+    <label>Rate the Restaurant</label>
+    <select class="form-select" name="rating" required>
+      <option value="" disabled selected>Select rating</option>
+      <option value="1">⭐ Very Bad</option>
+      <option value="2">⭐⭐ Bad</option>
+      <option value="3">⭐⭐⭐ Average</option>
+      <option value="4">⭐⭐⭐⭐ Good</option>
+      <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
+    </select>
+  </div>
+ <div class="mb-2">
+  <label for="comment-{{ res.id }}" class="form-label">Comment (optional)</label>
+  <textarea class="form-control" id="comment-{{ res.id }}" name="comment" rows="2" placeholder="Write your feedback..."></textarea>
+</div>
+
+  <div class="d-grid">
+    <button type="submit" class="btn btn-success btn-sm">Submit Review</button>
+  </div>
+</form>
+
+
+{% else %}
+  <span class="text-danger fw-semibold">{{ res.status }}</span>
+{% endif %}
+
               </p>
             </div>
           </div>

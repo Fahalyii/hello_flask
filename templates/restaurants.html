@@ -443,7 +443,7 @@
                 <p class="restaurant-cuisine">{{ restaurant.cuisine }}</p>
                 <p class="restaurant-location"><i class="bi bi-geo-alt"></i> {{ restaurant.location }}</p>
                 <div class="d-flex align-items-center">
-                    <span class="restaurant-rating"><i class="bi bi-star-fill"></i> {{ restaurant.rating or '4.5' }}</span>
+                    <span class="restaurant-rating"><i class="bi bi-star-fill"></i> {{ restaurant.rating }}</span>
                     <span class="text-muted">({{ restaurant.review_count or 0 }} reviews)</span>
                     <span class="restaurant-price">$$</span>
                 </div>
@@ -455,7 +455,7 @@
                         <a href="/ClaudeBookGPT.html?id={{ restaurant.id }}" class="btn book-btn w-100">Book a Table</a>
                     </div>
                     <div class="col-6">
-                        <a href="/restaurant/{{ restaurant.id }}" class="btn view-btn w-100">View Details</a>
+                <a href="{{ url_for('restaurant_details', restaurant_id=restaurant.id) }}" class="btn view-btn w-100">View Details</a>
                     </div>
                 </div>
             </div>
@@ -573,7 +573,7 @@
         document.querySelectorAll('.view-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 const restaurantName = this.closest('.restaurant-card').querySelector('.restaurant-title').textContent;
-                alert(`Viewing details for ${restaurantName}. Redirecting...`);
+
                 // In a real app, redirect to restaurant details page
             });
         });
