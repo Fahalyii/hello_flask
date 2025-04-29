@@ -43,23 +43,30 @@
         </li>
 
         {% if current_user.is_authenticated %}
-          <li class="nav-item">
-            <a class="nav-link" href="/reservations">
-              <i class="bi bi-calendar-check me-1"></i>My Reservations
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link nav-btn" href="/auth/logout">
-              <i class="bi bi-box-arrow-right me-1"></i>Logout
-            </a>
-          </li>
-        {% else %}
-          <li class="nav-item">
-            <a class="nav-link" href="/auth/login">
-              <i class="bi bi-box-arrow-in-right me-1"></i>Login / Register
-            </a>
-          </li>
-        {% endif %}
+  <li class="nav-item">
+    <a class="nav-link" href="/reservations">
+      <i class="bi bi-calendar-check me-1"></i>My Reservations
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link nav-btn" href="/auth/logout">
+      <i class="bi bi-box-arrow-right me-1"></i>Logout
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link disabled" href="#">
+      Welcome, {{ current_user.name }}
+    </a>
+  </li>
+{% else %}
+  <li class="nav-item">
+    <a class="nav-link" href="/auth/login">
+      <i class="bi bi-box-arrow-in-right me-1"></i>Login / Register
+    </a>
+  </li>
+{% endif %}
+
+
       </ul>
     </div>
   </div>

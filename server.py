@@ -1,14 +1,19 @@
-from flask import Flask, render_template
-from flask_login import LoginManager
+from flask import Flask, render_template, request, redirect
+from flask_login import LoginManager, login_required, current_user
+from flask_mail import Mail
+
 from config import Config
 from database import db
-from routes import init_routes
 from models import User, Restaurant, Review, Reservation, Waitlist
-from flask import request, render_template
-from flask_login import login_required, current_user
 from sqlalchemy import func
 from datetime import datetime, date
-from routes.reservation import auto_cancel_expired_reservations
+from email_utils import mail, init_mail  # ✅ Correct
+from routes import init_routes  # ✅ Moved after app setup
+from email_utils import mail, init_mail
+from flask import request, render_template
+from models import Restaurant
+
+mail = Mail()
 
 
 app = Flask(__name__)
@@ -16,13 +21,13 @@ app.config.from_object(Config)
 
 # Init SQLAlchemy
 db.init_app(app)
+init_mail(app)
 
 # Init Flask-Login
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'auth.login'
-from flask import request, render_template
-from models import Restaurant
+
 
 
 @app.route('/search')
@@ -128,20 +133,25 @@ def login():
 @app.route('/register')
 def register():
     return render_template('register.html')
-@app.route('/test')
-def test():
-    return render_template('test.html')
+
+
 
 
 
 @app.route('/ClaudeBookGPT.html')
 def claude_book():
+    restaurant_id = request.args.get('id')
+    if not restaurant_id:
+        return redirect('/restaurants')  # ✅ redirect silently if no ID
+
     return render_template('ClaudeBookGPT.html')
 
 
 @app.route('/dashboard')
 @login_required
 def dashboard():
+    from routes.reservation import auto_cancel_expired_reservations
+
     if current_user.role == "restaurant_manager":
         assigned_restaurant = Restaurant.query.filter_by(manager_id=current_user.id).first()
 
@@ -195,3 +205,9 @@ def restaurant_details(restaurant_id):
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+def send_email(to, subject, body):
+    msg = Message(subject, recipients=[to])
+    msg.body = body
+    msg.sender = app.config['MAIL_USERNAME']
+    mail.send(msg)

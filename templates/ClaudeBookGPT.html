@@ -334,27 +334,6 @@
         <div class="booking-form fade-in">
           <h2 class="text-center">Book a Table</h2>
 
-          <!-- Show Success / Error / Info Messages Here -->
-          {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        {% for category, message in messages %}
-            <div class="alert
-                {% if category == 'info' %}
-                    alert-primary
-                {% elif category == 'success' %}
-                    alert-success
-                {% elif category == 'danger' %}
-                    alert-danger
-                {% else %}
-                    alert-secondary
-                {% endif %}
-                mt-3
-            ">
-                {{ message }}
-            </div>
-        {% endfor %}
-    {% endif %}
-{% endwith %}
 
 
           <form action="" method="POST" id="reservationForm">

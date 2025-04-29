@@ -8,6 +8,7 @@ from flask_login import login_required
 from datetime import datetime
 from models import Waitlist
 from datetime import datetime, timedelta
+from email_utils import send_email
 
 reservation_bp = Blueprint('reservation', __name__)
 
@@ -215,6 +216,7 @@ def cancel_reservation(reservation_id):
         flash('Internal server error.', 'danger')
         return redirect(url_for('reservation.view_reservations'))
 
+
 @reservation_bp.route('/confirm_reservation/<int:reservation_id>', methods=['POST'])
 @login_required
 def confirm_reservation(reservation_id):
@@ -225,13 +227,31 @@ def confirm_reservation(reservation_id):
         return redirect(url_for('dashboard'))
 
     reservation.status = 'Awaiting Payment'
-    if reservation.table:  # ✅ Only if a table is assigned
+    if reservation.table:
         reservation.table.is_available = False
 
     reservation.payment_requested_at = datetime.utcnow()
 
     db.session.commit()
+
+    # 📨 Send notification in app
     send_notification(reservation.user_id, "Your reservation has been accepted. Please pay 1 riyal within 5 minutes.")
+
+    # 📨 Send email notification
+    user_email = reservation.user.email
+    send_email(
+        to=user_email,
+        subject="Reservv - Payment Required for Your Reservation",
+        body=f"""Hello {reservation.user.name},
+
+Your reservation at {reservation.restaurant.name} has been accepted!
+
+Please complete your payment within 5 minutes to confirm your reservation.
+
+Thank you,
+Reservv Team
+"""
+    )
 
     flash('Reservation accepted. Awaiting customer payment.', 'info')
     return redirect(url_for('dashboard'))
@@ -248,7 +268,10 @@ def reject_reservation(reservation_id):
         return redirect(url_for('manager.dashboard'))
 
     reservation.status = 'Cancelled'
-    reservation.table.is_available = True  # Free the table
+
+    if reservation.table:
+        reservation.table.is_available = True  # ✅ Check if a table exists before marking it available
+
     db.session.commit()
 
     send_notification(reservation.user_id, "Your reservation has been rejected.")
