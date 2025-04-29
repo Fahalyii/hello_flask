@@ -3,10 +3,13 @@ from flask_login import LoginManager
 from config import Config
 from database import db
 from routes import init_routes
-from models import User, Restaurant, Review
+from models import User, Restaurant, Review, Reservation, Waitlist
 from flask import request, render_template
 from flask_login import login_required, current_user
 from sqlalchemy import func
+from datetime import datetime, date
+from routes.reservation import auto_cancel_expired_reservations
+
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -43,6 +46,7 @@ def restaurants():
     cuisine = request.args.get('cuisine')
     rating_filter = request.args.get('rating', type=int)
     price_filter = request.args.get('price')
+    sort_option = request.args.get('sort', 'recommended')
 
     query = Restaurant.query
 
@@ -53,13 +57,13 @@ def restaurants():
     # Filter by Price
     if price_filter:
         try:
-            price_filter = int(price_filter)  # ✅ Convert to integer safely
+            price_filter = int(price_filter)
             if price_filter == 101:
-                query = query.filter(Restaurant.price > 100)
+                query = query.filter(Restaurant.price.cast(db.Integer) > 100)
             else:
-                query = query.filter(Restaurant.price <= price_filter)
+                query = query.filter(Restaurant.price.cast(db.Integer) <= price_filter)
         except ValueError:
-            pass  # In case of invalid input, ignore price filter
+            pass
 
     restaurants = query.all()
 
@@ -79,7 +83,21 @@ def restaurants():
     if rating_filter:
         restaurants = [r for r in restaurants if r.rating and r.rating >= rating_filter]
 
+    # ✅ Sort Restaurants
+    if sort_option == "highest_rated":
+        restaurants.sort(key=lambda r: (r.rating or 0), reverse=True)
+    elif sort_option == "most_popular":
+        restaurants.sort(key=lambda r: (r.review_count or 0), reverse=True)
+    elif sort_option == "price_low_high":
+        restaurants.sort(key=lambda r: int(r.price) if r.price else 9999)
+    elif sort_option == "price_high_low":
+        restaurants.sort(key=lambda r: int(r.price) if r.price else 0, reverse=True)
+    else:
+        # recommended (default)
+        restaurants.sort(key=lambda r: r.id)
+
     return render_template('restaurants.html', restaurants=restaurants)
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -130,23 +148,32 @@ def dashboard():
         if not assigned_restaurant:
             return render_template('wait_admin.html')
 
-        reservations = []
-        for table in assigned_restaurant.tables:
-            for reservation in table.reservations:
-                reservations.append(reservation)
+        # 🚀 Get fresh reservations now
+        reservations = Reservation.query.filter(
+            Reservation.restaurant_id == assigned_restaurant.id,
+            Reservation.status.in_(['Pending', 'Awaiting Payment', 'Confirmed'])
+        ).all()
+
+        waiting_list_reservations = Reservation.query.filter(
+            Reservation.restaurant_id == assigned_restaurant.id,
+            Reservation.status == 'In the Waiting List'
+        ).all()
+
+        auto_cancel_expired_reservations(reservations)  # Optional: if you want auto cancel system still
 
         available_seats = sum(table.capacity for table in assigned_restaurant.tables if table.is_available)
-
-        # 🔥 NEW: calculate guest_sum in backend
         guest_sum = sum(reservation.guest_count for reservation in reservations)
 
         return render_template('manager_dashboard.html',
                                restaurant=assigned_restaurant,
                                reservations=reservations,
+                               waiting_list_reservations=waiting_list_reservations,
                                available_seats=available_seats,
                                guest_sum=guest_sum)
     else:
         return render_template('index.html')
+
+
 
 
 @app.route('/restaurant/<int:restaurant_id>')

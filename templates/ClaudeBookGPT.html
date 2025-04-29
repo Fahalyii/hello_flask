@@ -326,77 +326,102 @@
     </div>
   </div>
 
-  <!-- Booking Form -->
-  <section class="booking-section">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-8">
-          <div class="booking-form fade-in">
-            <h2 class="text-center">Book a Table</h2>
-            <form action="" method="POST" id="reservationForm">
-              <div class="row">
-                <div class="col-md-6 mb-4">
-                  <label for="datePicker" class="form-label">Select Date</label>
-                  <div class="form-icon">
-                    <i class="bi bi-calendar3"></i>
-                    <input type="text" class="form-control" id="datePicker" name="date" required autocomplete="off" placeholder="Choose your date">
-                  </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                  <label for="timeSelect" class="form-label">Select Time</label>
-                  <div class="form-icon">
-                    <i class="bi bi-clock"></i>
-                    <select class="form-select" id="timeSelect" name="time" required>
-                      <option value="" disabled selected>Choose a time</option>
-                      <option value="17:00">5:00 PM</option>
-                      <option value="17:30">5:30 PM</option>
-                      <option value="18:00">6:00 PM</option>
-                      <option value="18:30">6:30 PM</option>
-                      <option value="19:00">7:00 PM</option>
-                      <option value="19:30">7:30 PM</option>
-                      <option value="20:00">8:00 PM</option>
-                      <option value="20:30">8:30 PM</option>
-                      <option value="21:00">9:00 PM</option>
-                    </select>
-                  </div>
+ <!-- Booking Form -->
+<section class="booking-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="booking-form fade-in">
+          <h2 class="text-center">Book a Table</h2>
+
+          <!-- Show Success / Error / Info Messages Here -->
+          {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert
+                {% if category == 'info' %}
+                    alert-primary
+                {% elif category == 'success' %}
+                    alert-success
+                {% elif category == 'danger' %}
+                    alert-danger
+                {% else %}
+                    alert-secondary
+                {% endif %}
+                mt-3
+            ">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+
+          <form action="" method="POST" id="reservationForm">
+            <div class="row">
+              <div class="col-md-6 mb-4">
+                <label for="datePicker" class="form-label">Select Date</label>
+                <div class="form-icon">
+                  <i class="bi bi-calendar3"></i>
+                  <input type="text" class="form-control" id="datePicker" name="date" required autocomplete="off" placeholder="Choose your date">
                 </div>
               </div>
-              <div class="mb-4">
-                <label for="guestsSelect" class="form-label">Number of Guests</label>
+              <div class="col-md-6 mb-4">
+                <label for="timeSelect" class="form-label">Select Time</label>
                 <div class="form-icon">
-                  <i class="bi bi-people"></i>
-                  <select class="form-select" id="guestsSelect" name="guest_count" required>
-                    <option value="" disabled selected>Select number of guests</option>
-                    {% for i in range(1, 11) %}
-                      <option value="{{ i }}">{{ i }}</option>
-                    {% endfor %}
+                  <i class="bi bi-clock"></i>
+                  <select class="form-select" id="timeSelect" name="time" required>
+                    <option value="" disabled selected>Choose a time</option>
+                    <option value="17:00">5:00 PM</option>
+                    <option value="17:30">5:30 PM</option>
+                    <option value="18:00">6:00 PM</option>
+                    <option value="18:30">6:30 PM</option>
+                    <option value="19:00">7:00 PM</option>
+                    <option value="19:30">7:30 PM</option>
+                    <option value="20:00">8:00 PM</option>
+                    <option value="20:30">8:30 PM</option>
+                    <option value="21:00">9:00 PM</option>
                   </select>
                 </div>
               </div>
-              <div class="mb-4">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="specialRequest">
-                  <label class="form-check-label" for="specialRequest">
-                    I have special requests
-                  </label>
-                </div>
+            </div>
+            <div class="mb-4">
+              <label for="guestsSelect" class="form-label">Number of Guests</label>
+              <div class="form-icon">
+                <i class="bi bi-people"></i>
+                <select class="form-select" id="guestsSelect" name="guest_count" required>
+                  <option value="" disabled selected>Select number of guests</option>
+                  {% for i in range(1, 11) %}
+                    <option value="{{ i }}">{{ i }}</option>
+                  {% endfor %}
+                </select>
               </div>
-              <div class="specialRequestsInput d-none mb-4">
-                <label for="specialRequestsText" class="form-label">Special Requests</label>
-                <textarea class="form-control" id="specialRequestsText" rows="3" placeholder="Special seating, dietary requirements, etc."></textarea>
-                <div class="form-text">We'll do our best to accommodate your requests.</div>
+            </div>
+            <div class="mb-4">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="specialRequest">
+                <label class="form-check-label" for="specialRequest">
+                  I have special requests
+                </label>
               </div>
-              <div class="d-grid mt-4">
-                <button type="submit" class="btn btn-primary btn-lg">
-                  <i class="bi bi-calendar-check me-2"></i>Confirm Reservation
-                </button>
-              </div>
-            </form>
-          </div>
+            </div>
+            <div class="specialRequestsInput d-none mb-4">
+              <label for="specialRequestsText" class="form-label">Special Requests</label>
+              <textarea class="form-control" id="specialRequestsText" rows="3" placeholder="Special seating, dietary requirements, etc."></textarea>
+              <div class="form-text">We'll do our best to accommodate your requests.</div>
+            </div>
+            <div class="d-grid mt-4">
+              <button type="submit" class="btn btn-primary btn-lg">
+                <i class="bi bi-calendar-check me-2"></i>Confirm Reservation
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
+
 
   <!-- Footer -->
   <footer>

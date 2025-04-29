@@ -69,6 +69,11 @@
   <div class="container mt-5">
     <h2 class="mb-4 fw-bold text-center">Your Reservations</h2>
 
+    <div class="text-center mb-4">
+  <a href="/reservation_history" class="btn btn-outline-primary">View Completed Reservations</a>
+</div>
+
+
     {% if reservations %}
       <div class="row">
         {% for res in reservations %}

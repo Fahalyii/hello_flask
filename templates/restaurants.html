@@ -387,15 +387,7 @@
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <div class="mb-3">
-                        <label class="filter-label">Features</label>
-                        <select class="form-select">
-                            <option selected>All Features</option>
-                            <option>Outdoor Seating</option>
-                            <option>Private Dining</option>
-                            <option>Family Friendly</option>
-                        </select>
-                    </div>
+
                 </div>
                 <div class="col-md-2 d-flex align-items-end">
                     <div class="mb-3 w-100">
@@ -417,17 +409,19 @@
 </form>
 
             </div>
-            <div class="col-md-6 text-md-end d-flex justify-content-md-end align-items-center mt-3 mt-md-0">
-                <span class="me-2">Sort by:</span>
-                <select class="form-select w-auto">
-                    <option selected>Recommended</option>
-                    <option>Highest Rated</option>
-                    <option>Most Popular</option>
-                    <option>Price (Low to High)</option>
-                    <option>Price (High to Low)</option>
-                </select>
-            </div>
-        </div>
+<div class="col-md-6 text-md-end d-flex justify-content-md-end align-items-center mt-3 mt-md-0">
+    <span class="me-2">Sort by:</span>
+    <form method="GET" action="{{ url_for('restaurants') }}">
+        <select class="form-select w-auto" name="sort" onchange="this.form.submit()">
+            <option value="highest_rated" {{ 'selected' if request.args.get('sort') == 'highest_rated' }}>Highest Rated</option>
+            <option value="most_popular" {{ 'selected' if request.args.get('sort') == 'most_popular' }}>Most Popular</option>
+            <option value="price_low_high" {{ 'selected' if request.args.get('sort') == 'price_low_high' }}>Price (Low to High)</option>
+            <option value="price_high_low" {{ 'selected' if request.args.get('sort') == 'price_high_low' }}>Price (High to Low)</option>
+        </select>
+    </form>
+</div>
+</div>
+
 
        <!-- Restaurants Grid -->
 <div class="row">

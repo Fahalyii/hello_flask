@@ -220,6 +220,56 @@
 
 <div class="container">
 
+
+<!-- Waiting List Section -->
+<div class="card">
+    <div class="card-header">
+        <h2><i class="fas fa-clock"></i> Waiting List</h2>
+    </div>
+    <div class="card-body">
+        {% if waiting_list_reservations %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Customer</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Guests</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reservation in waiting_list_reservations %}
+                <tr>
+                    <td>#{{ reservation.id }}</td>
+                    <td>{{ reservation.user.name }}</td>
+                    <td>{{ reservation.date }}</td>
+<td>{{ reservation.time.strftime('%I:%M %p') }}</td>
+                    <td>{{ reservation.guest_count }}</td>
+                    <td><span class="badge bg-warning text-dark">{{ reservation.status }}</span></td>
+                    <td>
+                        <form action="{{ url_for('reservation.accept_waitlist_reservation', reservation_id=reservation.id) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-success btn-sm">Accept</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="empty-state">
+            <i class="fas fa-clock"></i>
+            <p>No customers in the waiting list currently.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+
+
+
     <div class="dashboard-stats">
         <div class="stat-card">
             <i class="fas fa-calendar-check"></i>
@@ -291,7 +341,7 @@
         <td>#{{ reservation.id }}</td>
         <td>{{ reservation.user.name }}</td>
         <td>{{ reservation.date }}</td>
-        <td>{{ reservation.time.strftime('%H:%M') }}</td>
+<td>{{ reservation.time.strftime('%I:%M %p') }}</td>
         <td>{{ reservation.guest_count }}</td>
         <td>
             {% if reservation.status == 'Pending' %}

@@ -58,8 +58,10 @@ class Reservation(db.Model):
     date = db.Column(db.Date, nullable=False)
     time = db.Column(db.Time, nullable=False)
     guest_count = db.Column(db.Integer)
+    payment_requested_at = db.Column(db.DateTime)
+    restaurant = db.relationship('Restaurant', backref='reservations')
 
-    reviews = db.relationship('Review', backref='reservation', lazy=True)  # 🔥 Add this line
+    reviews = db.relationship('Review', backref='reservation', lazy=True)
 
 
 # -------------------------------
