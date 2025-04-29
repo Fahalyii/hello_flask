@@ -434,40 +434,27 @@
         </div>
     </div>
 
-    <!-- Search Bar -->
-    <div class="container search-container">
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <div class="search-panel">
-                    <div class="input-group shadow-sm p-3 rounded bg-white">
-                        <!-- Date Picker -->
-                        <input type="date" class="form-control border-0" value="2025-03-30">
+    <!-- Corrected Search Bar -->
+<div class="container search-container">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <form action="{{ url_for('search_restaurants') }}" method="GET">
+        <div class="input-group shadow-sm p-3 rounded bg-white">
 
-                        <!-- Time Picker -->
-                        <select class="form-select border-0">
-                            <option>7:00 PM</option>
-                            <option>7:30 PM</option>
-                            <option>8:00 PM</option>
-                            <option>8:30 PM</option>
-                            <option>9:00 PM</option>
-                        </select>
 
-                        <!-- Number of People -->
-                        <select class="form-select border-0">
-                            <option>2 people</option>
-                            <option>1 person</option>
-                            <option>3 people</option>
-                            <option>4 people</option>
-                            <option>5+ people</option>
-                        </select>
 
-                        <!-- Search Bar -->
-                        <input type="text" class="form-control border-0" placeholder="Location, Restaurant, or Cuisine">
 
-                        <!-- Submit Button -->
-                        <button class="btn search-btn">Find a Table</button>
-                    </div>
-                </div>
+
+          <!-- Search Query -->
+          <input type="text" class="form-control border-0" name="query" placeholder="Location, Restaurant, or Cuisine">
+
+          <!-- Submit Button -->
+          <button type="submit" class="btn search-btn">Find a Table</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 
                 <!-- Location Suggestion -->
 

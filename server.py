@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect
 from flask_login import LoginManager, login_required, current_user
-from flask_mail import Mail
+from flask_mail import Mail, Message
 
 from config import Config
 from database import db
@@ -211,3 +211,23 @@ def send_email(to, subject, body):
     msg.body = body
     msg.sender = app.config['MAIL_USERNAME']
     mail.send(msg)
+
+@app.route('/search_restaurants', methods=['GET'])
+def search_restaurants():
+    query = request.args.get('query', '')
+
+    restaurants_query = Restaurant.query
+
+    if query:
+        search_pattern = f"%{query}%"
+        restaurants_query = restaurants_query.filter(
+            Restaurant.name.ilike(search_pattern) |
+            Restaurant.location.ilike(search_pattern) |
+            Restaurant.cuisine.ilike(search_pattern)
+        )
+
+    filtered_restaurants = restaurants_query.all()
+
+    return render_template('restaurants.html',
+                           restaurants=filtered_restaurants,
+                           query=query)
