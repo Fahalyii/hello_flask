@@ -138,13 +138,13 @@ def register():
 
 
 
-@app.route('/ClaudeBookGPT.html')
+@app.route('/book.html')
 def claude_book():
     restaurant_id = request.args.get('id')
     if not restaurant_id:
         return redirect('/restaurants')  # ✅ redirect silently if no ID
 
-    return render_template('ClaudeBookGPT.html')
+    return render_template('book.html')
 
 
 @app.route('/dashboard')
@@ -169,7 +169,7 @@ def dashboard():
             Reservation.status == 'In the Waiting List'
         ).all()
 
-        auto_cancel_expired_reservations(reservations)  # Optional: if you want auto cancel system still
+        auto_cancel_expired_reservations(reservations)
 
         available_seats = sum(table.capacity for table in assigned_restaurant.tables if table.is_available)
         guest_sum = sum(reservation.guest_count for reservation in reservations)
@@ -181,7 +181,9 @@ def dashboard():
                                available_seats=available_seats,
                                guest_sum=guest_sum)
     else:
-        return render_template('index.html')
+        restaurants = Restaurant.query.limit(4).all()
+        return render_template('index.html', restaurants=restaurants)
+
 
 
 
